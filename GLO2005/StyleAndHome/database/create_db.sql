@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS StyleAndHome; 
 CREATE DATABASE IF NOT EXISTS StyleAndHome CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE StyleAndHome;
 
@@ -69,7 +70,6 @@ CREATE TABLE Transactions (
 CREATE TABLE Transactions_Clothing (
     transaction_id INT,
     clothing_id INT,
-    quantity INT,
     price_at_purchase DECIMAL(10,2),
     PRIMARY KEY (transaction_id, clothing_id),
     FOREIGN KEY (transaction_id) REFERENCES Transactions(transaction_id) ON DELETE CASCADE,
@@ -80,7 +80,6 @@ CREATE TABLE Transactions_Clothing (
 CREATE TABLE Transactions_HomeProducts (
     transaction_id INT,
     homeproduct_id INT,
-    quantity INT,
     price_at_purchase DECIMAL(10,2),
     PRIMARY KEY (transaction_id, homeproduct_id),
     FOREIGN KEY (transaction_id) REFERENCES Transactions(transaction_id) ON DELETE CASCADE,

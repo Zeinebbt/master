@@ -20,5 +20,6 @@ app.register_blueprint(review_bp, url_prefix="/reviews")
 def index():
     return {"message": "Bienvenue sur l'API Style&Home"}
 
+
 if __name__ == "__main__":
     app.run(debug=True)
