@@ -37,41 +37,42 @@ def get_user_by_id(user_id):
     return user
 
 # Créer un utilisateur
-def create_user(email, username, password_hash, birthdate, balance=0.00):
+def create_user(email, username, password_hash, birthdate):
+    conn = get_db_connection()
     cursor = conn.cursor()
-
-    sql = """
-    INSERT INTO Users (email, username, password_hash, birthdate, balance)
-    VALUES (%s, %s, %s, %s, %s)
-    """
-    values = (email, username, password_hash, birthdate, balance)
-    cursor.execute(sql, values)
+    cursor.execute("""
+        INSERT INTO Users (email, username, password_hash, birthdate)
+        VALUES (%s, %s, %s, %s)
+    """, (email, username, password_hash, birthdate))
     conn.commit()
-
-    user_id = cursor.lastrowid
     cursor.close()
     conn.close()
-    return user_id
 
 # Mettre à jour un utilisateur
 def update_user(user_id, email, username, password_hash, birthdate, balance):
+    conn = get_db_connection()
     cursor = conn.cursor()
-
-    sql = """
-    UPDATE Users SET email = %s, username = %s, password_hash = %s,
-    birthdate = %s, balance = %s WHERE user_id = %s
+    query = """
+        UPDATE Users
+        SET email = %s,
+            username = %s,
+            password_hash = %s,
+            birthdate = %s,
+            balance = %s
+        WHERE user_id = %s
     """
-    values = (email, username, password_hash, birthdate, balance, user_id)
-    cursor.execute(sql, values)
+    cursor.execute(query, (email, username, password_hash, birthdate, balance, user_id))
     conn.commit()
-
     cursor.close()
     conn.close()
 
 # Supprimer un utilisateur
 def delete_user(user_id):
-    cursor = conn.cursor()
-    cursor.execute("DELETE FROM Users WHERE user_id = %s", (user_id,))
-    conn.commit()
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    query = "DELETE FROM Users WHERE user_id = %s"
+    cursor.execute(query, (user_id,))
+    connection.commit()
     cursor.close()
-    conn.close()
+    connection.close()
+

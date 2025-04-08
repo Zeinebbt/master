@@ -23,4 +23,26 @@ def create_user():
 
     return jsonify({"message": "User created successfully!"}), 201
 
+@user_bp.route("/<int:user_id>", methods=["PUT"])
+def update_user(user_id):
+    data = request.get_json()
+    print("🔁 PUT /users/<id> triggered")
+
+    user_service.update_user(
+        user_id=user_id,
+        email=data["email"],
+        username=data["username"],
+        password_hash=data["password_hash"],
+        birthdate=data["birthdate"]
+    )
+    return jsonify({"message": "Utilisateur mis à jour avec succès"}), 200
+
+@user_bp.route('/<int:user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    print(f"🔥 DELETE /users/{user_id} triggered")
+    user_service.delete_user(user_id)
+    return jsonify({"message": f"User {user_id} supprimé avec succès"}), 200
+
+
+
 
