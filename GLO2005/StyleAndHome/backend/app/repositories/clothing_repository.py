@@ -1,7 +1,8 @@
 from ...config import get_db_connection
 
+conn = get_db_connection()
+
 def get_all_clothing(limit=-1, research=""):
-    conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
 
     if research == "":
@@ -23,7 +24,6 @@ def get_all_clothing(limit=-1, research=""):
 
 
 def get_clothing_by_id(clothing_id):
-    conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     cursor.execute("SELECT * FROM Clothing WHERE clothing_id = %s", (clothing_id,))
     clothing = cursor.fetchone()
@@ -33,7 +33,6 @@ def get_clothing_by_id(clothing_id):
 
 
 def insert_clothing(data):
-    conn = get_db_connection()
     cursor = conn.cursor()
     query = """
         INSERT INTO Clothing (name, description, price, brand, color, size, gender, category, image_url, seller_id)
@@ -52,7 +51,6 @@ def insert_clothing(data):
 
 
 def delete_clothing(clothing_id):
-    conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("DELETE FROM Clothing WHERE clothing_id = %s", (clothing_id,))
     conn.commit()

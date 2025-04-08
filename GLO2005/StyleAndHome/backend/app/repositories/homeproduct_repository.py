@@ -1,8 +1,9 @@
 from ...config import get_db_connection
 
+conn = get_db_connection()
+
 # Obtenir tous les produits de maison avec une limite et une recherche
 def get_all_homeproducts(limit=-1, search=""):
-    conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
 
     if search:
@@ -32,7 +33,6 @@ def get_all_homeproducts(limit=-1, search=""):
 
 # Obtenir un produit maison par son ID
 def get_homeproduct_by_id(homeproduct_id):
-    conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     query = "SELECT * FROM HomeProducts WHERE homeproduct_id = %s"
     cursor.execute(query, (homeproduct_id,))
@@ -43,7 +43,6 @@ def get_homeproduct_by_id(homeproduct_id):
 
 # Créer un produit de maison
 def create_homeproduct(homeproduct):
-    conn = get_db_connection()
     cursor = conn.cursor()
     query = """
     INSERT INTO HomeProducts (name, description, price, brand, category, image_url, seller_id)
@@ -67,7 +66,6 @@ def create_homeproduct(homeproduct):
 
 # Mettre à jour un produit
 def update_homeproduct(homeproduct_id, homeproduct):
-    conn = get_db_connection()
     cursor = conn.cursor()
     query = """
     UPDATE HomeProducts
@@ -91,7 +89,6 @@ def update_homeproduct(homeproduct_id, homeproduct):
 
 # Supprimer un produit
 def delete_homeproduct(homeproduct_id):
-    conn = get_db_connection()
     cursor = conn.cursor()
     query = "DELETE FROM HomeProducts WHERE homeproduct_id = %s"
     cursor.execute(query, (homeproduct_id,))

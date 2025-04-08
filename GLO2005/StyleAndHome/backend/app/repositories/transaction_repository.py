@@ -1,8 +1,9 @@
 from ...config import get_db_connection
 
+conn = get_db_connection()
+
 # Obtenir toutes les transactions (limite facultative)
 def get_all_transactions(limit=-1):
-    conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
 
     query = """
@@ -24,7 +25,6 @@ def get_all_transactions(limit=-1):
 
 # Obtenir les transactions d’un utilisateur (en tant qu’acheteur ou vendeur)
 def get_transactions_by_user(user_id):
-    conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     query = """
     SELECT transaction_id, buyer_id, seller_id, total_price, created_at
@@ -40,7 +40,6 @@ def get_transactions_by_user(user_id):
 
 # Créer une nouvelle transaction
 def create_transaction(transaction):
-    conn = get_db_connection()
     cursor = conn.cursor()
     query = """
     INSERT INTO Transactions (buyer_id, seller_id, total_price)

@@ -1,8 +1,9 @@
 from ...config import get_db_connection
 
+conn = get_db_connection()
+
 # Obtenir tous les utilisateurs avec une limite et une recherche
 def get_all_users(limit=-1, search=""):
-    conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
 
     if search:
@@ -26,7 +27,6 @@ def get_all_users(limit=-1, search=""):
 
 # Rechercher un utilisateur par son ID
 def get_user_by_id(user_id):
-    conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
 
     cursor.execute("SELECT * FROM Users WHERE user_id = %s", (user_id,))
@@ -38,7 +38,6 @@ def get_user_by_id(user_id):
 
 # Créer un utilisateur
 def create_user(email, username, password_hash, birthdate, balance=0.00):
-    conn = get_db_connection()
     cursor = conn.cursor()
 
     sql = """
@@ -56,7 +55,6 @@ def create_user(email, username, password_hash, birthdate, balance=0.00):
 
 # Mettre à jour un utilisateur
 def update_user(user_id, email, username, password_hash, birthdate, balance):
-    conn = get_db_connection()
     cursor = conn.cursor()
 
     sql = """
@@ -72,7 +70,6 @@ def update_user(user_id, email, username, password_hash, birthdate, balance):
 
 # Supprimer un utilisateur
 def delete_user(user_id):
-    conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("DELETE FROM Users WHERE user_id = %s", (user_id,))
     conn.commit()

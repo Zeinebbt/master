@@ -1,8 +1,9 @@
 from ...config import get_db_connection
 
+conn = get_db_connection()
+
 # Obtenir toutes les reviews (avec une limite facultative)
 def get_all_reviews(limit=-1):
-    conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
 
     query = """
@@ -24,7 +25,6 @@ def get_all_reviews(limit=-1):
 
 # Obtenir les reviews d’un utilisateur
 def get_reviews_by_user(user_id):
-    conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     query = """
     SELECT review_id, rating, comment, clothing_id, homeproduct_id, created_at
@@ -40,7 +40,6 @@ def get_reviews_by_user(user_id):
 
 # Créer une nouvelle review
 def create_review(review):
-    conn = get_db_connection()
     cursor = conn.cursor()
     query = """
     INSERT INTO Review (user_id, rating, comment, clothing_id, homeproduct_id)
@@ -62,7 +61,6 @@ def create_review(review):
 
 # Supprimer une review
 def delete_review(review_id):
-    conn = get_db_connection()
     cursor = conn.cursor()
     query = "DELETE FROM Review WHERE review_id = %s"
     cursor.execute(query, (review_id,))
