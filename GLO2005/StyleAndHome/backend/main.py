@@ -1,11 +1,14 @@
-# main.py — point d'entrée de l'API Flask pour Style&Home
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
+# main.py — point d'entrée de l'API Flask pour Style&Home
 from flask import Flask
-from backend.app.routes.user_routes import user_bp
-from backend.app.routes.clothing_routes import clothing_bp
-from backend.app.routes.homeproduct_routes import homeproduct_bp
-from backend.app.routes.transaction_routes import transaction_bp
-from backend.app.routes.review_routes import review_bp
+from app.routes.user_routes import user_bp
+from app.routes.clothing_routes import clothing_bp
+from app.routes.homeproduct_routes import homeproduct_bp
+from app.routes.transaction_routes import transaction_bp
+from app.routes.review_routes import review_bp
 
 app = Flask(__name__)
 

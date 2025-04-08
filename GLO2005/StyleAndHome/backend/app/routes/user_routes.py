@@ -1,6 +1,6 @@
 # user_routes.py
-from flask import Blueprint, jsonify, request
-from backend.app.services import user_service
+from flask import Blueprint, request, jsonify
+from app.services import user_service
 
 user_bp = Blueprint("user_bp", __name__, url_prefix="/users")
 
@@ -12,7 +12,7 @@ def get_users():
 @user_bp.route("/", methods=["POST"])
 def create_user():
     data = request.get_json()
-    print("🔥 POST /users/ triggered")  # Debug print
+    print("🔥 POST /users/ triggered")
 
     user_service.insert_user(
         email=data["email"],
@@ -22,4 +22,5 @@ def create_user():
     )
 
     return jsonify({"message": "User created successfully!"}), 201
+
 

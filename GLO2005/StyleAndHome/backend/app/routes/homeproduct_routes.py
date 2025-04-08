@@ -1,6 +1,6 @@
 # homeproduct_routes.py
 from flask import Blueprint, jsonify, request
-from backend.app.services import homeproduct_service
+from app.services import homeproduct_service
 
 homeproduct_bp = Blueprint("homeproduct_bp", __name__, url_prefix="/homeproducts")
 

@@ -1,6 +1,6 @@
 # transaction_routes.py
 from flask import Blueprint, jsonify, request
-from backend.app.services import transaction_
+from app.services import transaction_service
 
 transaction_bp = Blueprint("transaction_bp", __name__, url_prefix="/transactions")
 

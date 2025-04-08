@@ -1,6 +1,6 @@
 # review_routes.py
 from flask import Blueprint, jsonify, request
-from backend.app.services import review_service
+from app.services import review_service
 
 review_bp = Blueprint("review_bp", __name__, url_prefix="/reviews")
 
