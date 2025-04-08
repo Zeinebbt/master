@@ -1,4 +1,4 @@
-from backend.config import get_db_connection
+from config import get_db_connection
 
 conn = get_db_connection()
 
@@ -49,7 +49,7 @@ def create_user(email, username, password_hash, birthdate):
     conn.close()
 
 # Mettre à jour un utilisateur
-def update_user(user_id, email, username, password_hash, birthdate, balance):
+def update_user(user_id, email, username, password_hash, birthdate, balance=0.00):
     conn = get_db_connection()
     cursor = conn.cursor()
     query = """
@@ -75,4 +75,3 @@ def delete_user(user_id):
     connection.commit()
     cursor.close()
     connection.close()
-

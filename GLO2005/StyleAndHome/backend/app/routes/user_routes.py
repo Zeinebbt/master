@@ -33,7 +33,8 @@ def update_user(user_id):
         email=data["email"],
         username=data["username"],
         password_hash=data["password_hash"],
-        birthdate=data["birthdate"]
+        birthdate=data["birthdate"],
+        balance=data["balance"]
     )
     return jsonify({"message": "Utilisateur mis à jour avec succès"}), 200
 

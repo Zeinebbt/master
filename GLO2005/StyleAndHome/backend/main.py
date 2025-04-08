@@ -14,7 +14,7 @@ app = Flask(__name__)
 
 # Enregistrement des blueprints avec des préfixes clairs
 app.register_blueprint(user_bp, url_prefix="/users")
-app.register_blueprint(clothing_bp, url_prefix="/clothing")
+app.register_blueprint(clothing_bp)
 app.register_blueprint(homeproduct_bp, url_prefix="/homeproducts")
 app.register_blueprint(transaction_bp, url_prefix="/transactions")
 app.register_blueprint(review_bp, url_prefix="/reviews")
@@ -26,3 +26,4 @@ def index():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
