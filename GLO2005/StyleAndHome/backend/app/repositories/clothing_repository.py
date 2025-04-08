@@ -1,64 +1,58 @@
-# app/repositories/clothing_repository.py
-from backend.config import get_db_connection
+from ...config import get_db_connection
 
-class ClothingRepository:
+conn = get_db_connection()
 
-    def get_all(self):
-        conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM Clothing")
-        clothing = cursor.fetchall()
-        cursor.close()
-        conn.close()
-        return clothing
+def get_all_clothing(limit=-1, research=""):
+    cursor = conn.cursor(dictionary=True)
 
-    def get_by_id(self, clothing_id):
-        conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM Clothing WHERE clothing_id = %s", (clothing_id,))
-        clothing = cursor.fetchone()
-        cursor.close()
-        conn.close()
-        return clothing
+    if research == "":
+        query = "SELECT * FROM Clothing"
+    else:
+        safe_research = research.replace("'", "''")
+        query = f"SELECT * FROM Clothing WHERE name LIKE '%{safe_research}%'"
 
-    def create(self, clothing):
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        sql = '''INSERT INTO Clothing 
-                 (name, description, price, brand, color, size, gender, category, image_url, seller_id)
-                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'''
-        values = (
-            clothing['name'], clothing['description'], clothing['price'], clothing['brand'],
-            clothing['color'], clothing['size'], clothing['gender'], clothing['category'],
-            clothing['image_url'], clothing['seller_id']
-        )
-        cursor.execute(sql, values)
-        conn.commit()
-        clothing_id = cursor.lastrowid
-        cursor.close()
-        conn.close()
-        return clothing_id
+    if limit != -1:
+        query += f" LIMIT {limit}"
 
-    def update(self, clothing_id, clothing):
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        sql = '''UPDATE Clothing SET name=%s, description=%s, price=%s, brand=%s, color=%s, 
-                 size=%s, gender=%s, category=%s, image_url=%s, seller_id=%s 
-                 WHERE clothing_id=%s'''
-        values = (
-            clothing['name'], clothing['description'], clothing['price'], clothing['brand'],
-            clothing['color'], clothing['size'], clothing['gender'], clothing['category'],
-            clothing['image_url'], clothing['seller_id'], clothing_id
-        )
-        cursor.execute(sql, values)
-        conn.commit()
-        cursor.close()
-        conn.close()
+    cursor.execute(query)
+    result = cursor.fetchall()
 
-    def delete(self, clothing_id):
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM Clothing WHERE clothing_id = %s", (clothing_id,))
-        conn.commit()
-        cursor.close()
-        conn.close()
+    cursor.close()
+    conn.close()
+
+    return result
+
+
+def get_clothing_by_id(clothing_id):
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM Clothing WHERE clothing_id = %s", (clothing_id,))
+    clothing = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    return clothing
+
+
+def insert_clothing(data):
+    cursor = conn.cursor()
+    query = """
+        INSERT INTO Clothing (name, description, price, brand, color, size, gender, category, image_url, seller_id)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+    """
+    values = (
+        data["name"], data["description"], data["price"], data["brand"], data["color"],
+        data["size"], data["gender"], data["category"], data["image_url"], data["seller_id"]
+    )
+    cursor.execute(query, values)
+    conn.commit()
+    clothing_id = cursor.lastrowid
+    cursor.close()
+    conn.close()
+    return clothing_id
+
+
+def delete_clothing(clothing_id):
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM Clothing WHERE clothing_id = %s", (clothing_id,))
+    conn.commit()
+    cursor.close()
+    conn.close()
