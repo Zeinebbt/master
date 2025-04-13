@@ -1,24 +1,36 @@
 from config import get_db_connection
 
-# Obtenir tous les produits de maison avec une limite et une recherche
-def get_all_homeproducts(limit=-1, search=""):
-    conn = get_db_connection()
+conn = get_db_connection()
+
+# Obtenir tous les produits avec filtres
+def get_all_homeproducts(limit=-1, search="", brand="", category="", max_price=None, in_stock=False):
     cursor = conn.cursor(dictionary=True)
 
+    query = """
+    SELECT homeproduct_id, name, description, price, brand, category, ImgURL, quantity, seller_id
+    FROM HomeProducts WHERE 1=1
+    """
+
+    params = ()
+
     if search:
-        search = f"%{search}%"
-        query = """
-        SELECT homeproduct_id, name, description, price, brand, category, image_url, seller_id
-        FROM HomeProducts
-        WHERE name LIKE %s
-        """
-        params = (search,)
-    else:
-        query = """
-        SELECT homeproduct_id, name, description, price, brand, category, image_url, seller_id
-        FROM HomeProducts
-        """
-        params = ()
+        query += " AND name LIKE %s"
+        params += (f"%{search}%",)
+
+    if brand:
+        query += " AND brand = %s"
+        params += (brand,)
+
+    if category:
+        query += " AND category = %s"
+        params += (category,)
+
+    if max_price:
+        query += " AND price <= %s"
+        params += (max_price,)
+
+    if in_stock:
+        query += " AND quantity > 0"
 
     if limit != -1:
         query += " LIMIT %s"
@@ -27,74 +39,65 @@ def get_all_homeproducts(limit=-1, search=""):
     cursor.execute(query, params)
     results = cursor.fetchall()
     cursor.close()
-    conn.close()
     return results
 
-# Obtenir un produit maison par son ID
-def get_homeproduct_by_id(homeproduct_id):
-    conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
-    query = "SELECT * FROM HomeProducts WHERE homeproduct_id = %s"
-    cursor.execute(query, (homeproduct_id,))
-    result = cursor.fetchone()
-    cursor.close()
-    conn.close()
-    return result
 
-# Créer un produit de maison
-def create_homeproduct(homeproduct):
-    conn = get_db_connection()
+def get_homeproduct_by_id(homeproduct_id):
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM HomeProducts WHERE homeproduct_id = %s", (homeproduct_id,))
+    product = cursor.fetchone()
+    cursor.close()
+    return product
+
+
+def create_homeproduct(data):
     cursor = conn.cursor()
     query = """
-    INSERT INTO HomeProducts (name, description, price, brand, category, image_url, seller_id)
-    VALUES (%s, %s, %s, %s, %s, %s, %s)
+    INSERT INTO HomeProducts (name, description, price, brand, category, ImgURL, quantity, seller_id)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
     """
     values = (
-        homeproduct["name"],
-        homeproduct["description"],
-        homeproduct["price"],
-        homeproduct["brand"],
-        homeproduct["category"],
-        homeproduct["image_url"],
-        homeproduct["seller_id"]
+        data["name"],
+        data["description"],
+        data["price"],
+        data["brand"],
+        data["category"],
+        data["image_url"],  # Côté code on laisse image_url mais dans SQL ça insère dans ImgURL
+        data["quantity"],
+        data["seller_id"]
     )
     cursor.execute(query, values)
     conn.commit()
-    homeproduct_id = cursor.lastrowid
+    product_id = cursor.lastrowid
     cursor.close()
-    conn.close()
-    return homeproduct_id
+    return product_id
 
-# Mettre à jour un produit
-def update_homeproduct(homeproduct_id, homeproduct):
-    conn = get_db_connection()
+
+def update_homeproduct(product_id, data):
     cursor = conn.cursor()
     query = """
     UPDATE HomeProducts
-    SET name = %s, description = %s, price = %s, brand = %s, category = %s, image_url = %s, seller_id = %s
-    WHERE homeproduct_id = %s
+    SET name=%s, description=%s, price=%s, brand=%s, category=%s, ImgURL=%s, quantity=%s, seller_id=%s
+    WHERE homeproduct_id=%s
     """
     values = (
-        homeproduct["name"],
-        homeproduct["description"],
-        homeproduct["price"],
-        homeproduct["brand"],
-        homeproduct["category"],
-        homeproduct["image_url"],
-        homeproduct["seller_id"],
-        homeproduct_id
+        data["name"],
+        data["description"],
+        data["price"],
+        data["brand"],
+        data["category"],
+        data["image_url"],
+        data["quantity"],
+        data["seller_id"],
+        product_id
     )
     cursor.execute(query, values)
     conn.commit()
     cursor.close()
-    conn.close()
 
-# Supprimer un produit
-def delete_homeproduct(homeproduct_id):
-    conn = get_db_connection()
+
+def delete_homeproduct(product_id):
     cursor = conn.cursor()
-    query = "DELETE FROM HomeProducts WHERE homeproduct_id = %s"
-    cursor.execute(query, (homeproduct_id,))
+    cursor.execute("DELETE FROM HomeProducts WHERE homeproduct_id=%s", (product_id,))
     conn.commit()
     cursor.close()
-    conn.close()
