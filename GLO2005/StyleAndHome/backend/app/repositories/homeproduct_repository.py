@@ -52,6 +52,11 @@ def get_homeproduct_by_id(homeproduct_id):
 
 def create_homeproduct(data):
     cursor = conn.cursor()
+
+    # Vérification des valeurs importantes
+    if data["price"] < 0 or data["quantity"] < 0:
+        raise Exception("Price and Quantity must be non-negative values.")
+
     query = """
     INSERT INTO HomeProducts (name, description, price, brand, category, ImgURL, quantity, seller_id)
     VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
@@ -75,6 +80,11 @@ def create_homeproduct(data):
 
 def update_homeproduct(product_id, data):
     cursor = conn.cursor()
+
+    # Vérification des valeurs importantes
+    if data["price"] < 0 or data["quantity"] < 0:
+        raise Exception("Price and Quantity must be non-negative values.")
+
     query = """
     UPDATE HomeProducts
     SET name=%s, description=%s, price=%s, brand=%s, category=%s, ImgURL=%s, quantity=%s, seller_id=%s

@@ -28,8 +28,12 @@ def sign_up():
     data = request.get_json()
 
     try:
-        user_service.create_user(data)
-        return jsonify({"message": "User created successfully !"}), 201
+        user_id = user_service.create_user(data)
+        return jsonify({
+            "message": "User created successfully !",
+            "user_id": user_id
+        }), 201
+
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 

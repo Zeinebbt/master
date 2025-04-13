@@ -28,8 +28,11 @@ def get_homeproduct_by_id(product_id):
 @homeproduct_bp.route("/", methods=["POST"])
 def create_homeproduct():
     data = request.get_json()
-    product_id = homeproduct_service.create_homeproduct(data)
-    return jsonify({"homeproduct_id": product_id}), 201
+    try:
+        product_id = homeproduct_service.create_homeproduct(data)
+        return jsonify({"homeproduct_id": product_id}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
 
 
 @homeproduct_bp.route("/<int:product_id>", methods=["PUT"])
@@ -42,4 +45,4 @@ def update_homeproduct(product_id):
 @homeproduct_bp.route("/<int:product_id>", methods=["DELETE"])
 def delete_homeproduct(product_id):
     homeproduct_service.delete_homeproduct(product_id)
-    return jsonify({"message": "Home product deleted successfully"}), 200
+    return jsonify({"message": "Home product deleted successfully", "deleted_id": product_id}), 200

@@ -1,6 +1,7 @@
 # user_service.py
 import bcrypt
 from app.repositories import user_repository
+from app.repositories import wallet_repository
 
 
 # Obtenir tous les utilisateurs
@@ -18,14 +19,19 @@ def create_user(user_data):
     password = user_data.get("password")
     birthdate = user_data.get("birthdate")
 
-    # Vérifier si l'utilisateur existe déjà
     existing_user = user_repository.get_user_by_username(username)
     if existing_user:
         raise Exception("Username already exists !")
 
+    existing_email = user_repository.get_user_by_email(email)
+    if existing_email:
+        raise Exception("Email already exists !")
+
     password_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
-    return user_repository.create_user(email, username, password_hash, birthdate)
+    user_repository.create_user(email, username, password_hash, birthdate)
+    user = user_repository.get_user_by_username(username)
+    return user["User_Id"]
 
 # Mise à jour d'un utilisateur
 def update_user(user_id, email, username, password, birthdate):
