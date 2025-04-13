@@ -41,13 +41,21 @@ def get_all_homeproducts(limit=-1, search="", brand="", category="", max_price=N
     cursor.close()
     return results
 
-
 def get_homeproduct_by_id(homeproduct_id):
     cursor = conn.cursor(dictionary=True)
     cursor.execute("SELECT * FROM HomeProducts WHERE homeproduct_id = %s", (homeproduct_id,))
     product = cursor.fetchone()
     cursor.close()
     return product
+
+def get_homeproducts_by_seller(user_id):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM HomeProducts WHERE Seller_Id = %s", (user_id,))
+    results = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return results
 
 
 def create_homeproduct(data):

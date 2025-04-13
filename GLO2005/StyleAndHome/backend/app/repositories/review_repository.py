@@ -5,9 +5,9 @@ def get_all_reviews(limit=-1):
     cursor = conn.cursor(dictionary=True)
 
     query = """
-    SELECT review_id, author_id, rating, comment, target_clothing_id, target_homeproduct_id, target_seller_id, review_date
+    SELECT review_id, author_id, rating, comment, homeproduct_id, reviewdate
     FROM Reviews
-    ORDER BY review_date DESC
+    ORDER BY reviewdate DESC
     """
     params = ()
 
@@ -25,7 +25,7 @@ def get_review_by_id(review_id):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     query = """
-    SELECT review_id, author_id, rating, comment, target_clothing_id, target_homeproduct_id, target_seller_id, review_date
+    SELECT review_id, author_id, rating, comment, homeproduct_id, reviewdate
     FROM Reviews
     WHERE review_id = %s
     """
@@ -39,12 +39,27 @@ def get_reviews_by_user(author_id):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     query = """
-    SELECT review_id, rating, comment, target_clothing_id, target_homeproduct_id, target_seller_id, review_date
+    SELECT review_id, rating, comment, homeproduct_id, reviewdate
     FROM Reviews
     WHERE author_id = %s
-    ORDER BY review_date DESC
+    ORDER BY reviewdate DESC
     """
     cursor.execute(query, (author_id,))
+    reviews = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return reviews
+
+def get_reviews_by_homeproduct(homeproduct_id):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    query = """
+    SELECT review_id, author_id, rating, comment, homeproduct_id, reviewdate
+    FROM Reviews
+    WHERE homeproduct_id = %s
+    ORDER BY reviewdate DESC
+    """
+    cursor.execute(query, (homeproduct_id,))
     reviews = cursor.fetchall()
     cursor.close()
     conn.close()
@@ -55,16 +70,14 @@ def create_review(review):
     cursor = conn.cursor()
 
     query = """
-    INSERT INTO Reviews (author_id, rating, comment, target_clothing_id, target_homeproduct_id, target_seller_id)
-    VALUES (%s, %s, %s, %s, %s, %s)
+    INSERT INTO Reviews (author_id, rating, comment, homeproduct_id)
+    VALUES (%s, %s, %s, %s)
     """
     values = (
         review["author_id"],
         review["rating"],
         review.get("comment"),
-        review.get("target_clothing_id"),
-        review.get("target_homeproduct_id"),
-        review.get("target_seller_id")
+        review["homeproduct_id"]
     )
 
     cursor.execute(query, values)
@@ -80,17 +93,14 @@ def update_review(review_id, review):
     cursor = conn.cursor()
     query = """
     UPDATE Reviews
-    SET author_id = %s, rating = %s, comment = %s,
-        target_clothing_id = %s, target_homeproduct_id = %s, target_seller_id = %s
+    SET author_id = %s, rating = %s, comment = %s, homeproduct_id = %s
     WHERE review_id = %s
     """
     values = (
         review["author_id"],
         review["rating"],
         review.get("comment"),
-        review.get("target_clothing_id"),
-        review.get("target_homeproduct_id"),
-        review.get("target_seller_id"),
+        review["homeproduct_id"],
         review_id
     )
     cursor.execute(query, values)

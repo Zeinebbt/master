@@ -25,6 +25,14 @@ def get_homeproduct_by_id(product_id):
         return jsonify({"error": "Home product not found"}), 404
 
 
+@homeproduct_bp.route("/seller/<int:user_id>", methods=["GET"])
+def get_homeproducts_by_seller(user_id):
+    products = homeproduct_service.fetch_homeproducts_by_seller(user_id)
+    if products:
+        return jsonify(products), 200
+    return jsonify({"error": "Home product not found !"}), 404
+
+
 @homeproduct_bp.route("/", methods=["POST"])
 def create_homeproduct():
     data = request.get_json()

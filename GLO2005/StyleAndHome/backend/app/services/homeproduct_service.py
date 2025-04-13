@@ -6,6 +6,9 @@ def fetch_all_homeproducts(limit=-1, search="", brand="", category="", max_price
 def fetch_homeproduct_by_id(product_id):
     return homeproduct_repository.get_homeproduct_by_id(product_id)
 
+def fetch_homeproducts_by_seller(user_id):
+    return homeproduct_repository.get_homeproducts_by_seller(user_id)
+
 def create_homeproduct(data):
     return homeproduct_repository.create_homeproduct(data)
 
