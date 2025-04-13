@@ -18,14 +18,19 @@ def create_user(user_data):
     password = user_data.get("password")
     birthdate = user_data.get("birthdate")
 
-    # Hachage sécurisé du mot de passe
+    # Vérifier si l'utilisateur existe déjà
+    existing_user = user_repository.get_user_by_username(username)
+    if existing_user:
+        raise Exception("Username already exists !")
+
     password_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
-    user_repository.create_user(email, username, password_hash, birthdate)
+    return user_repository.create_user(email, username, password_hash, birthdate)
 
 # Mise à jour d'un utilisateur
-def update_user(user_id, email, username, password_hash, birthdate):
-    user_repository.update_user(user_id, email, username, password_hash, birthdate)
+def update_user(user_id, email, username, password, birthdate):
+    password_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+    return user_repository.update_user(user_id, email, username, password_hash, birthdate)
 
 # Supprimer un utilisateur
 def delete_user(user_id):
@@ -36,11 +41,11 @@ def login_user(username, password):
     user = user_repository.get_user_by_username(username)
 
     if not user:
-        raise Exception("Utilisateur introuvable")
+        raise Exception("User not found !")
 
     # Vérification du mot de passe
-    if not bcrypt.checkpw(password.encode('utf-8'), user['password_hash'].encode('utf-8')):
-        raise Exception("Mot de passe incorrect")
+    if not bcrypt.checkpw(password.encode('utf-8'), user['PasswordHash'].encode('utf-8')):
+        raise Exception("Incorrect password !")
 
     return user  # On retourne les infos utilisateur pour le token ou autre
 
@@ -48,5 +53,5 @@ def login_user(username, password):
 def retrieve_user(username):
     user = user_repository.get_user_by_username(username)
     if not user:
-        raise Exception("Utilisateur introuvable")
+        raise Exception("User not found !")
     return user

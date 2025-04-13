@@ -1,7 +1,6 @@
 from config import get_db_connection
 
 
-# Obtenir tous les utilisateurs avec une limite et une recherche
 def get_all_users(limit=-1, search=""):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
