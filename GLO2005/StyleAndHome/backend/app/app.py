@@ -8,6 +8,7 @@ from flask_jwt_extended import JWTManager
 
 # Importation des blueprints
 from app.routes.user_routes import user_bp
+from app.routes.address_routes import address_bp
 from app.routes.wallet_routes import wallet_bp
 from app.routes.homeproduct_routes import homeproduct_bp
 from app.routes.transaction_routes import transaction_bp
@@ -23,6 +24,7 @@ jwt = JWTManager(app)
 
 # Enregistrement des blueprints
 app.register_blueprint(user_bp, url_prefix="/users")
+app.register_blueprint(address_bp, url_prefix="/addresses")
 app.register_blueprint(wallet_bp, url_prefix="/wallets")
 app.register_blueprint(homeproduct_bp, url_prefix="/homeproducts")
 app.register_blueprint(transaction_bp, url_prefix="/transactions")
