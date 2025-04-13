@@ -8,6 +8,7 @@ sys.path.append(ROOT_DIR)
 
 from app.repositories import transaction_repository
 
+
 # Récupère toutes les transactions
 def fetch_all_transactions():
     return transaction_repository.get_all_transactions()

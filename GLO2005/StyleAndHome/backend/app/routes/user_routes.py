@@ -4,46 +4,38 @@ from app.services import user_service
 
 user_bp = Blueprint("user_bp", __name__, url_prefix="/users")
 
+# Récupérer tous les utilisateurs
 @user_bp.route("/", methods=["GET"])
 def get_users():
     users = user_service.fetch_all_users()
-    return jsonify(users)
+    return jsonify(users), 200
 
+# Créer un utilisateur
 @user_bp.route("/", methods=["POST"])
 def create_user():
     data = request.get_json()
-    print("🔥 POST /users/ triggered")
 
-    user_service.insert_user(
-        email=data["email"],
-        username=data["username"],
-        password_hash=data["password_hash"],
-        birthdate=data["birthdate"]
-    )
+    user_service.create_user(data)
 
     return jsonify({"message": "User created successfully!"}), 201
 
+# Mettre à jour un utilisateur
 @user_bp.route("/<int:user_id>", methods=["PUT"])
 def update_user(user_id):
     data = request.get_json()
-    print("🔁 PUT /users/<id> triggered")
 
     user_service.update_user(
         user_id=user_id,
-        email=data["email"],
-        username=data["username"],
-        password_hash=data["password_hash"],
-        birthdate=data["birthdate"],
-        balance=data["balance"]
+        email=data.get("email"),
+        username=data.get("username"),
+        password_hash=data.get("password_hash"),
+        birthdate=data.get("birthdate")
     )
-    return jsonify({"message": "Utilisateur mis à jour avec succès"}), 200
 
-@user_bp.route('/<int:user_id>', methods=['DELETE'])
+    return jsonify({"message": "User updated successfully!"}), 200
+
+# Supprimer un utilisateur
+@user_bp.route("/<int:user_id>", methods=["DELETE"])
 def delete_user(user_id):
-    print(f"🔥 DELETE /users/{user_id} triggered")
     user_service.delete_user(user_id)
-    return jsonify({"message": f"User {user_id} supprimé avec succès"}), 200
-
-
-
-
+    return jsonify({"message": f"User {user_id} deleted successfully!"}), 200

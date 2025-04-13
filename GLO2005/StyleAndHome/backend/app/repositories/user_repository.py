@@ -1,17 +1,17 @@
 from config import get_db_connection
 
-conn = get_db_connection()
 
 # Obtenir tous les utilisateurs avec une limite et une recherche
 def get_all_users(limit=-1, search=""):
+    conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
 
     if search:
         search = f"%{search}%"
-        query = "SELECT user_id, username, email, birthdate, balance FROM Users WHERE username LIKE %s"
+        query = "SELECT User_Id, Username, Email, Birthdate, CreatedAt FROM Users WHERE Username LIKE %s"
         params = (search,)
     else:
-        query = "SELECT user_id, username, email, birthdate, balance FROM Users"
+        query = "SELECT User_Id, Username, Email, Birthdate, CreatedAt FROM Users"
         params = ()
 
     if limit != -1:
@@ -20,58 +20,64 @@ def get_all_users(limit=-1, search=""):
 
     cursor.execute(query, params)
     results = cursor.fetchall()
-
     cursor.close()
     conn.close()
     return results
 
-# Rechercher un utilisateur par son ID
+
 def get_user_by_id(user_id):
+    conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
-
-    cursor.execute("SELECT * FROM Users WHERE user_id = %s", (user_id,))
+    cursor.execute("SELECT * FROM Users WHERE User_Id = %s", (user_id,))
     user = cursor.fetchone()
-
     cursor.close()
     conn.close()
     return user
 
-# Créer un utilisateur
+
+def get_user_by_username(username):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM Users WHERE Username = %s", (username,))
+    user = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    return user
+
+
 def create_user(email, username, password_hash, birthdate):
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("""
-        INSERT INTO Users (email, username, password_hash, birthdate)
+        INSERT INTO Users (Email, Username, PasswordHash, Birthdate)
         VALUES (%s, %s, %s, %s)
     """, (email, username, password_hash, birthdate))
     conn.commit()
     cursor.close()
     conn.close()
 
-# Mettre à jour un utilisateur
-def update_user(user_id, email, username, password_hash, birthdate, balance=0.00):
+
+def update_user(user_id, email, username, password_hash, birthdate):
     conn = get_db_connection()
     cursor = conn.cursor()
     query = """
         UPDATE Users
-        SET email = %s,
-            username = %s,
-            password_hash = %s,
-            birthdate = %s,
-            balance = %s
-        WHERE user_id = %s
+        SET Email = %s,
+            Username = %s,
+            PasswordHash = %s,
+            Birthdate = %s
+        WHERE User_Id = %s
     """
-    cursor.execute(query, (email, username, password_hash, birthdate, balance, user_id))
+    cursor.execute(query, (email, username, password_hash, birthdate, user_id))
     conn.commit()
     cursor.close()
     conn.close()
 
-# Supprimer un utilisateur
+
 def delete_user(user_id):
-    connection = get_db_connection()
-    cursor = connection.cursor()
-    query = "DELETE FROM Users WHERE user_id = %s"
-    cursor.execute(query, (user_id,))
-    connection.commit()
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM Users WHERE User_Id = %s", (user_id,))
+    conn.commit()
     cursor.close()
-    connection.close()
+    conn.close()
