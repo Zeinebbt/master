@@ -2,7 +2,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
-from flask import Flask
+from flask import Flask, render_template
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 
@@ -34,3 +34,8 @@ app.register_blueprint(buys_bp, url_prefix="/buys")
 @app.route("/")
 def index():
     return {"message": "Welcome to the Style&Home API"}
+
+# Route Nous Contacter
+@app.route("/contact")
+def contact():
+    return render_template("contact.html")

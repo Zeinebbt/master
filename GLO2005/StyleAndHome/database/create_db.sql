@@ -73,7 +73,6 @@ CREATE TABLE Buys (
     HomeProduct_Id INT,
     PurchaseDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     Taxed_Price DECIMAL(10, 2) NOT NULL,
-    Status VARCHAR(20) DEFAULT 'completed',
     FOREIGN KEY (User_Id) REFERENCES Users(User_Id) ON DELETE SET NULL,
     FOREIGN KEY (HomeProduct_Id) REFERENCES HomeProducts(HomeProduct_Id) ON DELETE SET NULL
 );

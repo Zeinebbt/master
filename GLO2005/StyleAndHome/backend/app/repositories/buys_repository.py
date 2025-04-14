@@ -5,7 +5,7 @@ def get_all_buys():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     query = """
-    SELECT buys_id, user_id, homeproduct_id, taxed_price, purchasedate, status
+    SELECT buys_id, user_id, homeproduct_id, taxed_price, purchasedate
     FROM Buys
     ORDER BY purchasedate DESC
     """
@@ -19,7 +19,7 @@ def get_buys_by_user(user_id):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     query = """
-    SELECT buys_id, user_id, homeproduct_id, taxed_price, purchasedate, status
+    SELECT buys_id, user_id, homeproduct_id, taxed_price, purchasedate
     FROM Buys
     WHERE user_id = %s
     ORDER BY purchasedate DESC
@@ -44,29 +44,3 @@ def create_buy(buy):
     cursor.close()
     conn.close()
     return buy_id
-
-def cancel_buy(buy_id):
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    query = """
-    UPDATE Buys
-    SET status = 'cancelled'
-    WHERE buys_id = %s
-    """
-    cursor.execute(query, (buy_id,))
-    conn.commit()
-    cursor.close()
-    conn.close()
-
-def update_buy_status(buy_id, new_status):
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    query = """
-    UPDATE Buys
-    SET status = %s
-    WHERE buys_id = %s
-    """
-    cursor.execute(query, (new_status, buy_id))
-    conn.commit()
-    cursor.close()
-    conn.close()

@@ -30,17 +30,3 @@ def create_buy():
         return jsonify({"message": "Purchase completed successfully", "buy_id": buy_id}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
-
-@buys_bp.route("/<int:buy_id>/cancel", methods=["PUT"])
-def cancel_buy(buy_id):
-    buys_service.cancel_buy(buy_id)
-    return jsonify({"message": "Purchase cancelled successfully"}), 200
-
-@buys_bp.route("/<int:buy_id>/status", methods=["PUT"])
-def update_buy_status(buy_id):
-    data = request.get_json()
-    try:
-        buys_service.update_buy_status(buy_id, data["status"])
-        return jsonify({"message": "Status updated successfully"}), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 400

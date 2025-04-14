@@ -50,4 +50,22 @@ BEGIN
 END;
 //
 
+-- Trigger : Calcul automatique du Taxed_Price avant insertion dans Buys
+CREATE TRIGGER calculate_taxed_price
+BEFORE INSERT ON Buys
+FOR EACH ROW
+BEGIN
+    DECLARE product_price DECIMAL(10,2);
+
+    -- Récupérer le Price du produit acheté
+    SELECT Price INTO product_price
+    FROM HomeProducts
+    WHERE HomeProduct_Id = NEW.HomeProduct_Id
+    LIMIT 1;
+
+    -- Calcul du Taxed_Price avec une taxe de 15%
+    SET NEW.Taxed_Price = product_price * 1.15;
+END;
+//
+
 DELIMITER ;

@@ -16,12 +16,3 @@ def create_buy(buy_data):
             raise Exception("User or Product does not exist.")
         else:
             raise e
-
-def cancel_buy(buy_id):
-    return buys_repository.cancel_buy(buy_id)
-
-def update_buy_status(buy_id, new_status):
-    allowed_status = ['completed', 'shipped', 'cancelled']
-    if new_status not in allowed_status:
-        raise Exception("Invalid status.")
-    return buys_repository.update_buy_status(buy_id, new_status)
