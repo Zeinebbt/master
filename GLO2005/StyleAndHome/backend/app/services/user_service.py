@@ -1,7 +1,6 @@
 # user_service.py
 import bcrypt
 from app.repositories import user_repository
-from app.repositories import wallet_repository
 
 
 # Obtenir tous les utilisateurs
