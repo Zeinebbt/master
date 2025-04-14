@@ -11,8 +11,8 @@ from app.routes.user_routes import user_bp
 from app.routes.address_routes import address_bp
 from app.routes.wallet_routes import wallet_bp
 from app.routes.homeproduct_routes import homeproduct_bp
-from app.routes.transaction_routes import transaction_bp
 from app.routes.review_routes import review_bp
+from app.routes.buys_routes import buys_bp
 
 # Initialisation de l'app Flask
 app = Flask(__name__)
@@ -27,8 +27,9 @@ app.register_blueprint(user_bp, url_prefix="/users")
 app.register_blueprint(address_bp, url_prefix="/addresses")
 app.register_blueprint(wallet_bp, url_prefix="/wallets")
 app.register_blueprint(homeproduct_bp, url_prefix="/homeproducts")
-app.register_blueprint(transaction_bp, url_prefix="/transactions")
 app.register_blueprint(review_bp, url_prefix="/reviews")
+app.register_blueprint(buys_bp, url_prefix="/buys")
+
 
 @app.route("/")
 def index():
