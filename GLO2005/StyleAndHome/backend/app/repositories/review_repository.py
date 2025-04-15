@@ -1,70 +1,118 @@
-from backend.config import get_db_connection
+from config import get_db_connection
 
-class ReviewRepository:
+def get_all_reviews(limit=-1):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
 
-    def get_all(self):
-        conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM Reviews")
-        reviews = cursor.fetchall()
-        cursor.close()
-        conn.close()
-        return reviews
+    query = """
+    SELECT review_id, author_id, rating, comment, homeproduct_id, reviewdate
+    FROM Reviews
+    ORDER BY reviewdate DESC
+    """
+    params = ()
 
-    def get_by_id(self, review_id):
-        conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM Reviews WHERE review_id = %s", (review_id,))
-        review = cursor.fetchone()
-        cursor.close()
-        conn.close()
-        return review
+    if limit != -1:
+        query += " LIMIT %s"
+        params = (limit,)
 
-    def create(self, review):
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        sql = """
-        INSERT INTO Reviews (author_id, target_clothing_id, target_homeproduct_id, target_seller_id, rating, comment, review_date)
-        VALUES (%s, %s, %s, %s, %s, %s, %s)
-        """
-        values = (
-            review['author_id'], review.get('target_clothing_id'), review.get('target_homeproduct_id'),
-            review.get('target_seller_id'), review['rating'], review['comment'], review['review_date']
-        )
-        cursor.execute(sql, values)
-        conn.commit()
-        new_id = cursor.lastrowid
-        cursor.close()
-        conn.close()
-        return new_id
+    cursor.execute(query, params)
+    results = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return results
 
-    def update(self, review_id, review):
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        sql = """
-        UPDATE Reviews SET
-            author_id = %s,
-            target_clothing_id = %s,
-            target_homeproduct_id = %s,
-            target_seller_id = %s,
-            rating = %s,
-            comment = %s,
-            review_date = %s
-        WHERE review_id = %s
-        """
-        values = (
-            review['author_id'], review.get('target_clothing_id'), review.get('target_homeproduct_id'),
-            review.get('target_seller_id'), review['rating'], review['comment'], review['review_date'], review_id
-        )
-        cursor.execute(sql, values)
-        conn.commit()
-        cursor.close()
-        conn.close()
+def get_review_by_id(review_id):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    query = """
+    SELECT review_id, author_id, rating, comment, homeproduct_id, reviewdate
+    FROM Reviews
+    WHERE review_id = %s
+    """
+    cursor.execute(query, (review_id,))
+    result = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    return result
 
-    def delete(self, review_id):
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM Reviews WHERE review_id = %s", (review_id,))
-        conn.commit()
-        cursor.close()
-        conn.close()
+def get_reviews_by_user(author_id):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    query = """
+    SELECT review_id, rating, comment, homeproduct_id, reviewdate
+    FROM Reviews
+    WHERE author_id = %s
+    ORDER BY reviewdate DESC
+    """
+    cursor.execute(query, (author_id,))
+    reviews = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return reviews
+
+def get_reviews_by_homeproduct(homeproduct_id):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    query = """
+    SELECT review_id, author_id, rating, comment, homeproduct_id, reviewdate
+    FROM Reviews
+    WHERE homeproduct_id = %s
+    ORDER BY reviewdate DESC
+    """
+    cursor.execute(query, (homeproduct_id,))
+    reviews = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return reviews
+
+def create_review(review):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    query = """
+    INSERT INTO Reviews (author_id, rating, comment, homeproduct_id)
+    VALUES (%s, %s, %s, %s)
+    """
+    values = (
+        review["author_id"],
+        review["rating"],
+        review.get("comment"),
+        review["homeproduct_id"]
+    )
+
+    cursor.execute(query, values)
+    conn.commit()
+
+    review_id = cursor.lastrowid
+    cursor.close()
+    conn.close()
+    return review_id
+
+def update_review(review_id, review):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    query = """
+    UPDATE Reviews
+    SET author_id = %s, rating = %s, comment = %s, homeproduct_id = %s
+    WHERE review_id = %s
+    """
+    values = (
+        review["author_id"],
+        review["rating"],
+        review.get("comment"),
+        review["homeproduct_id"],
+        review_id
+    )
+    cursor.execute(query, values)
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+def delete_review(review_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    query = "DELETE FROM Reviews WHERE review_id = %s"
+    cursor.execute(query, (review_id,))
+    conn.commit()
+    cursor.close()
+    conn.close()

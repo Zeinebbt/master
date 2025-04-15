@@ -1,19 +1,19 @@
-# homeproduct_service.py
-from backend.app.repositories.homeproduct_repository import HomeProductRepository
+from app.repositories import homeproduct_repository
 
-homeproduct_repo = HomeProductRepository()
-
-def fetch_all_homeproducts():
-    return homeproduct_repo.get_all()
+def fetch_all_homeproducts(limit=-1, search="", brand="", category="", max_price=None, in_stock=False):
+    return homeproduct_repository.get_all_homeproducts(limit, search, brand, category, max_price, in_stock)
 
 def fetch_homeproduct_by_id(product_id):
-    return homeproduct_repo.get_by_id(product_id)
+    return homeproduct_repository.get_homeproduct_by_id(product_id)
 
-def create_homeproduct(product_data):
-    return homeproduct_repo.create(product_data)
+def fetch_homeproducts_by_seller(user_id):
+    return homeproduct_repository.get_homeproducts_by_seller(user_id)
 
-def update_homeproduct(product_id, product_data):
-    return homeproduct_repo.update(product_id, product_data)
+def create_homeproduct(data):
+    return homeproduct_repository.create_homeproduct(data)
+
+def update_homeproduct(product_id, data):
+    return homeproduct_repository.update_homeproduct(product_id, data)
 
 def delete_homeproduct(product_id):
-    return homeproduct_repo.delete(product_id)
+    return homeproduct_repository.delete_homeproduct(product_id)

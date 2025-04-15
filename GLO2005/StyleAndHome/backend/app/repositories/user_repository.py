@@ -1,51 +1,102 @@
-from backend.config import get_db_connection
+from app.repositories import wallet_repository
+from config import get_db_connection
 
-class UserRepository:
 
-    def get_all_users(self):
-        conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT user_id, username, email, birthdate, balance FROM Users")
-        users = cursor.fetchall()
-        cursor.close()
-        conn.close()
-        return users
+def get_all_users(limit=-1, search=""):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
 
-    def get_by_id(self, user_id):
-        connection = get_db_connection()
-        cursor = connection.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM Users WHERE user_id = %s", (user_id,))
-        user = cursor.fetchone()
-        cursor.close()
-        connection.close()
-        return user
+    if search:
+        search = f"%{search}%"
+        query = "SELECT User_Id, Username, Email, Birthdate, CreatedAt FROM Users WHERE Username LIKE %s"
+        params = (search,)
+    else:
+        query = "SELECT User_Id, Username, Email, Birthdate, CreatedAt FROM Users"
+        params = ()
 
-    def create(self, user):
-        connection = get_db_connection()
-        cursor = connection.cursor()
-        sql = "INSERT INTO Users (email, username, password_hash, birthdate, balance) VALUES (%s, %s, %s, %s, %s)"
-        values = (user['email'], user['username'], user['password_hash'], user['birthdate'], user['balance'])
-        cursor.execute(sql, values)
-        connection.commit()
+    if limit != -1:
+        query += " LIMIT %s"
+        params += (limit,)
+
+    cursor.execute(query, params)
+    results = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return results
+
+def get_user_by_id(user_id):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM Users WHERE User_Id = %s", (user_id,))
+    user = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    return user
+
+def get_user_by_username(username):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM Users WHERE Username = %s", (username,))
+    user = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    return user
+
+def get_user_by_email(email):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM Users WHERE email = %s", (email,))
+    user = cursor.fetchone()
+    cursor.close()
+    return user
+
+
+def create_user(email, username, password_hash, birthdate):
+    conn = get_db_connection()
+    try:
+        cursor = conn.cursor()
+
+        cursor.execute("""
+            INSERT INTO Users (Email, Username, PasswordHash, Birthdate)
+            VALUES (%s, %s, %s, %s)
+        """, (email, username, password_hash, birthdate))
+
+        conn.commit()
+
         user_id = cursor.lastrowid
-        cursor.close()
-        connection.close()
+
         return user_id
 
-    def update(self, user_id, user):
-        connection = get_db_connection()
-        cursor = connection.cursor()
-        sql = "UPDATE Users SET email=%s, username=%s, password_hash=%s, birthdate=%s, balance=%s WHERE user_id=%s"
-        values = (user['email'], user['username'], user['password_hash'], user['birthdate'], user['balance'], user_id)
-        cursor.execute(sql, values)
-        connection.commit()
-        cursor.close()
-        connection.close()
+    except Exception as e:
+        conn.rollback()
+        raise e
 
-    def delete(self, user_id):
-        connection = get_db_connection()
-        cursor = connection.cursor()
-        cursor.execute("DELETE FROM Users WHERE user_id = %s", (user_id,))
-        connection.commit()
+    finally:
         cursor.close()
-        connection.close()
+        conn.close()
+
+
+def update_user(user_id, email, username, password_hash, birthdate):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    query = """
+        UPDATE Users
+        SET Email = %s,
+            Username = %s,
+            PasswordHash = %s,
+            Birthdate = %s
+        WHERE User_Id = %s
+    """
+    cursor.execute(query, (email, username, password_hash, birthdate, user_id))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+
+def delete_user(user_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM Users WHERE User_Id = %s", (user_id,))
+    conn.commit()
+    cursor.close()
+    conn.close()
