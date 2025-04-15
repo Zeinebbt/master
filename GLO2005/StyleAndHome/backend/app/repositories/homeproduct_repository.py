@@ -5,7 +5,7 @@ conn = get_db_connection()
 # Obtenir tous les produits avec filtres
 def get_all_homeproducts(limit=-1, search="", brand="", category="", max_price=None, in_stock=False):
     cursor = conn.cursor(dictionary=True)
-
+    print("Connected to the database.")
     query = """
     SELECT homeproduct_id, name, description, price, brand, category, ImgURL, quantity, seller_id
     FROM HomeProducts WHERE 1=1

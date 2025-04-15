@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bienvenue | Style & Home</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-logo">
+      <img src="logo.png" alt="Logo Style & Home" class="logo-navbar">
+    </div>
+
+
+    <div class="nav-categories">
+       <a class="cat-btn" href="home.html?categorie=Salon">Salon</a>
+       <a class="cat-btn" href="home.html?categorie=Chambre">Chambre</a>
+       <a class="cat-btn" href="home.html?categorie=Salle%20à%20manger">Salle à manger</a>
+       <a class="cat-btn" href="home.html?categorie=Bureau">Bureau</a>
+       <a class="cat-btn" href="home.html?categorie=Salle%20de%20bain">Salle de bain</a>
+       <a class="cat-btn" href="home.html?categorie=Chambre%20enfant">Chambre enfant</a>
+       <a class="cat-btn" href="home.html?categorie=Extérieur">Extérieur</a>
+       <a class="cat-btn" href="home.html?categorie=Rangement">Rangement</a>
+     </div>
+   </div>
+
+      <input type="text" class="search-bar-index" placeholder="Rechercher...">
+    </div>
+
+      <div class="dropdown">
+        <i class="fas fa-user dropbtn" title="Profil"></i>
+        <div class="dropdown-content" id="menu-profil" style="right: 0;">
+          <a href="#" onclick="redirigerVersProfil()">Profil</a>
+          <a href="#" onclick="deconnecterUtilisateur()">Se déconnecter</a>
+        </div>
+      </div>
+      <button onclick="redirigerVersSolde()" style="margin-left: 10px; padding: 5px 15px; border-radius: 20px; border: none; background-color: #e8caa2; color: #3e2c23; font-weight: bold; cursor: pointer;">Voir mon solde</button>
+    </div>
+  </nav>
+
+  <main class="hero">
+    <div class="overlay">
+      <h1>Style&Home</h1>
+      <p>Vêtements tendance & Meubles design en un seul endroit</p>
+      <button class="btn-commencer" onclick="redirigerVersHome()">Commencer les achats</button>
+    </div>
+  </main>
+  
+
+  <footer>
+  <p>&copy; 2025 Style & Home. Tous droits réservés.</p>
+  <p>Pour nous contacter : <strong>+1 (438) 123-4567</strong> | <strong>contact@styleandhome.ca</strong></p>
+</footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

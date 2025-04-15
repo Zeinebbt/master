@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mon Profil</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background: linear-gradient(to bottom, #fdf3e8, #f8e5ce);
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .profil-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .profil-box, .vente-box {
+      background-color: #fffaf5;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      max-width: 500px;
+      width: 100%;
+      margin-bottom: 40px;
+    }
+
+    .button-group button[onclick="supprimerCompte()"] {
+      background-color: #d9534f;
+      color: white;
+    }
+
+    .button-group button[onclick="supprimerCompte()"]:hover {
+      background-color: #c9302c;
+    }
+
+    h2 {
+      color: #3e2c23;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    p, label {
+      font-size: 1.1rem;
+      color: #5f4c3b;
+      margin-bottom: 10px;
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+
+    .profil-box button,
+    .vente-box button {
+      padding: 10px 20px;
+      border-radius: 25px;
+      border: none;
+      background-color: #e8caa2;
+      color: #3e2c23;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .profil-box button:hover,
+    .vente-box button:hover {
+      background-color: #d7b78c;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="url"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #cdb8a0;
+      background-color: #fffaf5;
+      color: #4d392b;
+      font-size: 1rem;
+    }
+
+    .checkboxes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .checkboxes label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    
+  </style>
+</head>
+<body>
+
+  <div class="profil-container">
+
+    <!-- Section profil -->
+    <div class="profil-box">
+      <h2>Mon Profil</h2>
+      <p><strong>Nom d'utilisateur :</strong> <span id="username"></span></p>
+      <p><strong>Année de naissance :</strong> <span id="birthyear"></span></p>
+      <p><strong>Membre depuis :</strong> <span id="membreDepuis"></span></p>
+      
+      
+      <div class="button-group">
+        <button onclick="editerProfil()">Éditer</button>
+        <button onclick="retourAccueil()">Retour</button>
+        <button type="button" onclick="supprimerCompte()">Supprimer le compte</button>
+      </div>
+    </div>
+
+    <!-- Section ajout article -->
+    <div class="vente-box">
+      <h2>Ajouter un article à vendre</h2>
+      <form id="form-article">
+        <label for="image"><strong>Lien de l'image (URL) :</strong></label>
+        <input type="url" id="image" name="image" placeholder="https://..." required>
+      
+        <label for="nom-article"><strong>Nom de l'article :</strong></label>
+        <input type="text" id="nom-article" name="nom-article" required>
+
+        <label for="prix-article"><strong>Prix :<strong></label>
+        <input type="number" id="prix-article" name="prix-article" min="0" step="0.01" required>
+        
+        <label for="stock-article"><strong>stock :</strong></label>
+        <input type="number" id="stock-article" name="stock-article" min="0" required>
+        
+        <div class="form-row">
+          <label for="marque"><strong>Marque :</strong></label>
+          <select name="marque" id="marque" required>
+            <option value="">-- Sélectionner une marque --</option>
+            <option value="IKEA">IKEA</option>
+            <option value="Maisons du Monde">Maisons du Monde</option>
+            <option value="Conforama">Conforama</option>
+            <option value="Wayfair">Wayfair</option>
+            <option value="BUT">BUT</option>
+            <option value="West Elm">West Elm</option>
+            <option value="Amazon Basics">Amazon Basics</option>
+            <option value="vente-unique.com">vente-unique.com</option>
+            <option value="Autre">Autre</option>
+          </select>
+        </div>
+        
+        <div class="form-row">
+          <label for="categorie"><strong>Catégorie :</strong></label>
+          <select name="categorie" id="categorie" required>
+            <option value="">-- Sélectionner une catégorie --</option>
+            <option value="Salon">Salon</option>
+            <option value="Chambre">Chambre</option>
+            <option value="Salle à manger">Salle à manger</option>
+            <option value="Bureau">Bureau</option>
+            <option value="Salle de bain">Salle de bain</option>
+            <option value="Chambre enfant">Chambre enfant</option>
+            <option value="Extérieur">Extérieur</option>
+            <option value="Rangement">Rangement</option>
+          </select>
+        </div>
+        
+        <div class="form-row">
+          <label for="description"><strong>Description :</strong></label>
+          <textarea id="description" name="description" rows="4" required></textarea>
+        </div>
+        
+        <div style="text-align:center;">
+          <button type="submit">Mettre en vente</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+
+  <script>
+    // Remplir les infos du profil
+    const username = localStorage.getItem("nomUtilisateur") || "Invité";
+    const birthyear = localStorage.getItem("anneeNaissance") || "Non renseignée";
+    const membreDepuis = localStorage.getItem("dateInscription") || "Aujourd'hui";
+    
+    document.getElementById("username").textContent = username;
+    document.getElementById("birthyear").textContent = birthyear;
+    document.getElementById("membreDepuis").textContent = membreDepuis;
+
+    function editerProfil() {
+      const nouveauNom = prompt("Entrez un nouveau nom d'utilisateur :", username);
+      const nouvelleDate = prompt("Entrez une nouvelle année de naissance :", birthyear);
+
+      if (nouveauNom && nouvelleDate) {
+        localStorage.setItem("nomUtilisateur", nouveauNom);
+        localStorage.setItem("anneeNaissance", nouvelleDate);
+        document.getElementById("username").textContent = nouveauNom;
+        document.getElementById("birthyear").textContent = nouvelleDate;
+        alert("Profil mis à jour !");
+      }
+    }
+
+
+    function retourAccueil() {
+    window.location.href = "index.html";
+   }
+
+   function supprimerCompte() {
+    const confirmation = confirm("Êtes-vous sûr(e) de vouloir supprimer votre compte ? Cette action est irréversible.");
+    if (confirmation) {
+      localStorage.removeItem("estConnecte");
+      localStorage.removeItem("nomUtilisateur");
+      localStorage.removeItem("anneeNaissance");
+      localStorage.removeItem("dateInscription");
+
+      alert("Votre compte a été supprimé.");
+      window.location.href = "index.html";
+    }
+  }
+
+    // Gestion soumission formulaire (simulé)
+    document.getElementById("form-article").addEventListener("submit", function(e) {
+      e.preventDefault();
+      alert("L'article a été ajouté (simulation). Vous pourrez le connecter à une base de données plus tard.");
+      this.reset();
+    });
+  </script>
+
+</body>
+</html>

@@ -86,12 +86,15 @@
         <input type="email" placeholder="Adresse e-mail" required>
         <input type="password" id="motdepasse1" placeholder="Mot de passe" required>
         <input type="password" id="motdepasse2" placeholder="Confirmer le mot de passe" required>
-        <input type="date" id="birthyear" placeholder="Année de naissance" required>
+        <input type="date" id="birthdate" placeholder="Date de naissance" required>
         <input type="text" id="StreetNameAndNumber" placeholder="nom de la rue et Numéro" required>
         <input type="text" id="country" placeholder="pays" required>
         <input type="text" id="province" placeholder="province" required>
         <input type="text" id="zip" placeholder="zip" required>
+
         <p id="erreur" style="color: red; display: none;">Les mots de passe ne correspondent pas.</p>
+        <p id="erreur-age" style="color: red; display: none;">Vous devez avoir au moins 18 ans pour vous inscrire.</p>
+
         <button type="submit">S'inscrire</button>
       </form>
       <p>Déjà un compte ? <a href="login.html">Se connecter</a></p>

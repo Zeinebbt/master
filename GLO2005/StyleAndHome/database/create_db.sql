@@ -76,3 +76,25 @@ CREATE TABLE Buys (
     FOREIGN KEY (User_Id) REFERENCES Users(User_Id) ON DELETE SET NULL,
     FOREIGN KEY (HomeProduct_Id) REFERENCES HomeProducts(HomeProduct_Id) ON DELETE SET NULL
 );
+
+
+INSERT INTO HomeProducts (
+    Name,
+    Description,
+    Price,
+    Brand,
+    Category,
+    ImgURL,
+    Quantity,
+    Seller_Id
+) VALUES (
+    'Canapé 3 places en tissu gris',
+    'Confort et design scandinave réunis dans un canapé 3 places moderne.',
+    549.99,
+    'IKEA',
+    'Salon',
+    'https://example.com/images/canape.jpg',
+    12,
+    1
+);
+

@@ -1,0 +1,23 @@
+<div class="article" data-categorie="{{categorie}}" data-marque="{{marque}}" data-nom="{{nom}}">
+  <img src="{{image}}" alt="{{alt}}" class="article-img">
+
+  <h3 class="article-nom">{{nom}}</h3>
+  <p class="article-prix">Prix : {{prix}}</p>
+  <p class="article-vendeur">Vendu par : <span class="vendeur">{{vendeur}}</span></p>
+
+  <div class="article-rating">
+    {{note_etoiles}} ({{note}}/5)
+  </div>
+
+  <div class="article-commentaires">
+    <p><strong>Commentaires :</strong></p>
+    <ul>
+      {{commentaires}}
+    </ul>
+  </div>
+
+  <div class="btn-article-group">
+    <button class="btn-details" data-index="{{index}}">Voir en détails</button>
+    <button class="btn-acheter">Acheter</button>
+  </div>
+</div>

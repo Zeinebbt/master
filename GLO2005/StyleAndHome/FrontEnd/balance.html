@@ -5,6 +5,103 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Mon solde | Style & Home</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .balance-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 50px 20px;
+      min-height: 100vh;
+      background: linear-gradient(to bottom, #fdf3e8, #f8e5ce);
+    }
+
+    .section {
+      background-color: #fffaf5;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      margin-bottom: 30px;
+      max-width: 500px;
+      width: 100%;
+    }
+
+    .section h2 {
+      color: #3e2c23;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .balance-amount {
+      font-size: 2rem;
+      margin: 20px 0;
+      color: #5a4536;
+      text-align: center;
+    }
+
+    .section button {
+      margin: 10px 5px 0;
+      padding: 10px 20px;
+      border-radius: 25px;
+      border: none;
+      background-color: #e8caa2;
+      color: #3e2c23;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .section button:hover {
+      background-color: #d7b78c;
+    }
+
+    .section input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 25px;
+      border: 1px solid #cdb8a0;
+      font-size: 1rem;
+      background-color: #fef8f2;
+      color: #4d392b;
+    }
+
+    .double {
+      display: flex;
+      gap: 15px;
+    }
+
+    .double input {
+      flex: 1;
+    }
+
+    .skip-button {
+      margin-top: 20px;
+      padding: 10px 25px;
+      border-radius: 25px;
+      border: none;
+      background-color: #d8b690;
+      color: #3e2c23;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .skip-button:hover {
+      background-color: #caa175;
+    }
+
+    .erreur {
+      color: red;
+      font-size: 0.9rem;
+      margin-top: -10px;
+      margin-bottom: 10px;
+      display: none;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
   <div class="balance-container">

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Détails de l'article</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="article-detail-container">
+    <img id="detail-img" class="article-img" alt="">
+    <h2 id="detail-nom"></h2>
+    <p><strong>Prix :</strong> <span id="detail-prix"></span></p>
+    <p><strong>Vendeur :</strong> <span id="detail-vendeur"></span></p>
+    <p><strong>Note :</strong> <span id="detail-note"></span></p>
+    <p><strong>Catégorie :</strong> <span id="detail-categorie"></span></p>
+    <p><strong>Marque :</strong> <span id="detail-marque"></span></p>
+
+    <h3>Commentaires</h3>
+    <ul id="detail-commentaires"></ul>
+
+    <!-- Zone d'ajout de commentaire -->
+    <div style="margin-top: 20px;">
+      <textarea id="nouveau-commentaire" placeholder="Écrire un commentaire..." rows="3" style="width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #ccc;"></textarea>
+      <button onclick="ajouterCommentaire()" class="btn-commencer" style="margin-top: 10px;">Ajouter le commentaire</button>
+    </div>
+    
+    <h3>Noter cet article</h3>
+    <div id="notation">
+      <span class="etoile" data-note="1">★</span>
+      <span class="etoile" data-note="2">★</span>
+      <span class="etoile" data-note="3">★</span>
+      <span class="etoile" data-note="4">★</span>
+      <span class="etoile" data-note="5">★</span>
+    </div>
+    <p><strong>Moyenne des notes :</strong> <span id="note-moyenne">Pas encore noté</span></p>
+    
+
+    <br>
+    <button onclick="window.location.href='home.html'" class="btn-commencer">Retour aux articles</button>
+  </div>
+
+  <script>
+    const article = JSON.parse(localStorage.getItem("articleDetails"));
+    const listeCommentaires = document.getElementById("detail-commentaires");
+
+    if (article) {
+      document.getElementById("detail-img").src = article.image;
+      document.getElementById("detail-img").alt = article.alt;
+      document.getElementById("detail-nom").textContent = article.nom;
+      document.getElementById("detail-prix").textContent = article.prix;
+      document.getElementById("detail-vendeur").textContent = article.vendeur;
+      document.getElementById("detail-note").textContent = `${article.note_etoiles} (${article.note}/5)`;
+      document.getElementById("detail-categorie").textContent = article.categorie;
+      document.getElementById("detail-marque").textContent = article.marque;
+
+      (article.commentaires || []).forEach(c => {
+        const li = document.createElement("li");
+        li.textContent = c;
+        listeCommentaires.appendChild(li);
+      });
+    }
+
+    function ajouterCommentaire() {
+      const texte = document.getElementById("nouveau-commentaire").value.trim();
+      if (texte) {
+        const li = document.createElement("li");
+        li.textContent = texte;
+        listeCommentaires.appendChild(li);
+        document.getElementById("nouveau-commentaire").value = "";
+      }
+    }
+  </script>
+</body>
+</html>

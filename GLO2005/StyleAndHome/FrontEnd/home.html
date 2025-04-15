@@ -1,0 +1,123 @@
+  <!DOCTYPE html>
+  <html lang="fr">
+  <head>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Accueil | Style & Home</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+      main {
+        padding: 60px 20px;
+        min-height: calc(100vh - 120px);
+        background: linear-gradient(to bottom, #fdf3e8, #f8e5ce);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        color: #3e2c23;
+      }
+
+      .hero-message {
+        background-color: #fffaf5;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      }
+    </style>
+  </head>
+  <body>
+
+    <nav class="navbar">
+      <div class="nav-logo">
+        <img src="logo.png" alt="Logo Style & Home" class="logo-navbar">
+      </div>
+    
+      <div class="nav-left" style="flex: 1; justify-content: center;">
+        <input type="text" class="search-bar-home" placeholder="Rechercher...">
+      </div>
+      
+    
+      <div class="nav-right">
+        <div class="dropdown">
+          <i class="fas fa-user dropbtn" title="Profil"></i>
+          <div class="dropdown-content">
+            <a href="#" onclick="redirigerVersProfil()">Profil</a>
+            <a href="#" onclick="deconnecterUtilisateur()">Se déconnecter</a>
+          </div>
+        </div>
+        <button onclick="redirigerVersSolde()" style="margin-left: 10px; padding: 5px 15px; border-radius: 20px; border: none; background-color: #e8caa2; color: #3e2c23; font-weight: bold; cursor: pointer;">Voir mon solde</button>
+      </div>
+    </nav>
+    
+    <section class="filtre-container">
+      <label for="filtre-categorie">Catégorie :</label>
+      <select id="filtre-categorie">
+        <option value="toutes">Toutes</option>
+        <option value="Salon">Salon</option>
+        <option value="Chambre">Chambre</option>
+        <option value="Salle à manger">Salle à manger</option>
+        <option value="Bureau">Bureau</option>
+        <option value="Salle de bain">Salle de bain</option>
+        <option value="Chambre enfant">Chambre enfant</option>
+        <option value="Extérieur">Extérieur</option>
+        <option value="Rangement">Rangement</option>
+        <option value="Autre">Autre</option>
+      </select>
+    
+      <label for="filtre-marque">Marque :</label>
+      <select id="filtre-marque">
+        <option value="toutes">Toutes</option>
+        <option value="IKEA">IKEA</option>
+        <option value="Maisons du Monde">Maisons du Monde</option>
+        <option value="Conforama">Conforama</option>
+        <option value="BUT">BUT</option>
+        <option value="Wayfair">Wayfair</option>
+        <option value="Amazon Basics">Amazon Basics</option>
+        <option value="Leroy Merlin">Leroy Merlin</option>
+        <option value="Vente-unique.com">Vente-unique.com</option>
+        <option value="Autre">Autre</option>
+      </select>
+
+      <div style="display: flex; align-items: center; gap: 5px;">
+        <label for="filtre-prix">Prix maximum :</label>
+        <input type="number" id="filtre-prix" placeholder="Ex: 50" min="0" />
+      </div>
+    </section>
+
+    <main class="article-container"></main>
+
+    <div style="text-align: center; margin: 30px;">
+      <button onclick="window.location.href='index.html'" style="padding: 10px 25px; font-size: 1rem; border-radius: 20px; background-color: #e8caa2; color: #3e2c23; font-weight: bold; border: none; cursor: pointer;">
+        Retour à l'accueil
+      </button>
+    </div>
+
+  <footer>
+    <p>&copy; 2025 Style & Home. Tous droits réservés.</p>
+    <p>Pour nous contacter : <strong>+1 (438) 123-4567</strong> | <strong>contact@styleandhome.ca</strong></p>
+  </footer>
+
+  <!-- Popup HTML -->
+  <div id="popup" class="popup">
+    <div class="popup-content">
+      <p id="transaction-id"></p>
+      <p id="message-confirmation"></p>
+      <button onclick="fermerPopup()" class="btn-fermer">Fermer</button>
+    </div>
+  </div>
+
+  <!-- Fichier JavaScript (centralisé et propre) -->
+  <script src="script.js"></script>
+  <script>
+    if (!localStorage.getItem("token") || !localStorage.getItem("user_id")) {
+  window.location.href = "login.html";
+}
+</script>
+  </body>
+  </html>

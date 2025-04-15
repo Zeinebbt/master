@@ -15,9 +15,6 @@ FOR EACH ROW
 BEGIN
     INSERT INTO Wallets (User_Id, Solde)
     VALUES (NEW.User_Id, 0.00);
-
-    INSERT INTO Addresses (User_Id, Zip, Province, Country, StreetNameAndNumber)
-    VALUES (NEW.User_Id, '', '', '', '');
 END;
 //
 
