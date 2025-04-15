@@ -121,87 +121,14 @@ function activerBoutonsDetails() {
     btn.addEventListener("click", function () {
       const index = btn.getAttribute("data-index");
       localStorage.setItem("articleDetails", JSON.stringify(articles[index]));
-      window.location.href = "detail.html"; // ou "détails.html" selon ton fichier
+      window.location.href = "details.html";
     });
   });
 }
-async function chargerArticlesDepuisBackend() {
-  try {
-    const response = await fetch("http://localhost:5000/homeproducts");
-    const data = await response.json();
-    articles = data; // ⚠️ Attention au format de données renvoyé
-    afficherArticles(); // maintenant que articles[] est rempli, on affiche
-  } catch (err) {
-    console.error("Erreur de chargement des articles :", err);
-    alert("Impossible de charger les articles.");
-  }
-}
-
 
 function getParametreURL(nom) {
   const params = new URLSearchParams(window.location.search);
   return params.get(nom);
-}
-
-function chargerModeleArticle() {
-  const container = document.querySelector(".article-container");
-  if (!container) return;
-
-  container.innerHTML = "";
-
-  const template = `
-  <div class="article" data-categorie="{{categorie}}" data-marque="{{marque}}" data-nom="{{nom}}">
-    <img src="{{image}}" alt="{{alt}}" class="article-img">
-    <h3 class="article-nom">{{nom}}</h3>
-    <p class="article-prix">Prix : {{prix}}</p>
-    <p class="article-vendeur">Vendu par : <span class="vendeur">{{vendeur}}</span></p>
-    <div class="article-rating">{{note_etoiles}} ({{note}}/5)</div>
-    <div class="btn-article-group">
-      <button class="btn-details" data-index="{{index}}">Voir en détails</button>
-      <button class="btn-acheter">Acheter</button>
-    </div>
-  </div>
-`;
-
-
-  articles.forEach((article, index) => {
-    let html = template
-    .replace("{{image}}", article.image)
-    .replace("{{alt}}", article.alt)
-    .replace("{{nom}}", article.nom)
-    .replace("{{prix}}", article.prix)
-    .replace("{{vendeur}}", article.vendeur)
-    .replace("{{note_etoiles}}", article.note_etoiles)
-    .replace("{{note}}", article.note)
-    .replace("{{categorie}}", article.categorie)
-    .replace("{{marque}}", article.marque)
-    .replace("{{index}}", index);
-
-    container.innerHTML += html;
-  });
-
-  const paramCat = getParametreURL("categorie");
-  if (paramCat) {
-    const selectCategorie = document.getElementById("filtre-categorie");
-    if (selectCategorie) {
-      selectCategorie.value = paramCat;
-    }
-  }
-
-  function activerBoutonsDetails() {
-    const boutons = document.querySelectorAll(".btn-details");
-    boutons.forEach(btn => {
-      btn.addEventListener("click", function () {
-        const index = btn.getAttribute("data-index");
-        localStorage.setItem("articleDetails", JSON.stringify(articles[index]));
-        window.location.href = "détails.html";
-      });
-    });
-  }
-
-  activerPopups();
-  activerBoutonsDetails();
-  filtrerArticles();
 }
 
 // ---------------------- FILTRAGE ----------------------
@@ -266,18 +193,6 @@ function activerPopups() {
 }
 
 // ---------------------- INITIALISATION ----------------------
-document.addEventListener("DOMContentLoaded", () => {
-  chargerModeleArticle();
-  const filtreCategorie = document.getElementById("filtre-categorie");
-  const filtreMarque = document.getElementById("filtre-marque");
-  const filtrePrix = document.getElementById("filtre-prix");
-
-  if (filtreCategorie && filtreMarque && filtrePrix) {
-    filtreCategorie.addEventListener("change", filtrerArticles);
-    filtreMarque.addEventListener("change", filtrerArticles);
-    filtrePrix.addEventListener("input", filtrerArticles);
-  }
-});
 
 async function connecterUtilisateur() {
   const username = document.getElementById("username").value;
@@ -380,12 +295,6 @@ const articleTemplate = `
     <div class="article-rating">
       {{note_etoiles}} ({{note}}/5)
     </div>
-    <div class="article-commentaires">
-      <p><strong>Commentaires :</strong></p>
-      <ul>
-        {{commentaires}}
-      </ul>
-    </div>
     <div class="btn-article-group">
       <button class="btn-details" data-index="{{index}}">Voir en détails</button>
       <button class="btn-acheter">Acheter</button>
@@ -400,6 +309,7 @@ async function chargerArticlesDepuisBackend() {
   try {
     const response = await fetch("http://localhost:5000/homeproducts");
     const data = await response.json();
+    console.log("Données reçues :", data); // 👈 ajoute ceci
     articles = data;
     afficherArticles(); // ✅ s'assurer qu'on affiche bien après chargement
   } catch (err) {
@@ -410,6 +320,7 @@ async function chargerArticlesDepuisBackend() {
 
 function afficherArticles() {
   const container = document.querySelector(".article-container");
+  if (!container) return;
   container.innerHTML = "";
 
   articles.forEach((article, index) => {
@@ -418,18 +329,27 @@ function afficherArticles() {
       commentairesHTML = article.commentaires.map(c => `<li>${c}</li>`).join("");
     }
 
-    let html = articleTemplate
-      .replace("{{image}}", article.image || "")
-      .replace("{{alt}}", article.alt || "")
-      .replace(/{{nom}}/g, article.nom || "")
-      .replace("{{prix}}", article.prix || "")
-      .replace("{{vendeur}}", article.vendeur || "")
-      .replace("{{note_etoiles}}", article.note_etoiles || "⭐️⭐️⭐️⭐️")
-      .replace("{{note}}", article.note || "4")
-      .replace("{{categorie}}", article.categorie || "")
-      .replace("{{marque}}", article.marque || "")
-      .replace("{{index}}", index)
-      .replace("{{commentaires}}", commentairesHTML);
+    // 💡 Calcul des étoiles et note
+    const moyenne = article.average_rating;
+    let etoiles = "Pas encore noté";
+    if (moyenne !== null && moyenne !== undefined && !isNaN(moyenne)) {
+      const fullStars = Math.floor(moyenne);
+      const halfStar = moyenne % 1 >= 0.5 ? "½" : "";
+      etoiles = "⭐".repeat(fullStars) + halfStar;
+    }
+
+    const html = articleTemplate
+      .replace("{{image}}", article.ImgURL || "")
+      .replace("{{alt}}", article.name || "")
+      .replace(/{{nom}}/g, article.name || "")
+      .replace("{{prix}}", article.price + " $" || "")
+      .replace("{{vendeur}}", "Utilisateur #" + article.seller_id)
+      .replace("{{note_etoiles}}", etoiles)
+      .replace("{{note}}", (!isNaN(Number(moyenne)) ? Number(moyenne).toFixed(1) : "—"))
+      .replace("{{categorie}}", article.category || "")
+      .replace("{{marque}}", article.brand || "")
+      .replace("{{stock}}", article.quantity || "")
+      .replace("{{index}}", index);
 
     container.innerHTML += html;
   });

@@ -78,23 +78,3 @@ CREATE TABLE Buys (
 );
 
 
-INSERT INTO HomeProducts (
-    Name,
-    Description,
-    Price,
-    Brand,
-    Category,
-    ImgURL,
-    Quantity,
-    Seller_Id
-) VALUES (
-    'Canapé 3 places en tissu gris',
-    'Confort et design scandinave réunis dans un canapé 3 places moderne.',
-    549.99,
-    'IKEA',
-    'Salon',
-    'https://example.com/images/canape.jpg',
-    12,
-    1
-);
-

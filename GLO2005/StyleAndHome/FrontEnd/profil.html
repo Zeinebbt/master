@@ -112,7 +112,7 @@
     <div class="profil-box">
       <h2>Mon Profil</h2>
       <p><strong>Nom d'utilisateur :</strong> <span id="username"></span></p>
-      <p><strong>Année de naissance :</strong> <span id="birthyear"></span></p>
+      <p><strong>Date de naissance :</strong> <span id="birthdate"></span></p>
       <p><strong>Membre depuis :</strong> <span id="membreDepuis"></span></p>
       
       
@@ -183,54 +183,45 @@
 
   </div>
 
-  <script>
-    // Remplir les infos du profil
-    const username = localStorage.getItem("nomUtilisateur") || "Invité";
-    const birthyear = localStorage.getItem("anneeNaissance") || "Non renseignée";
-    const membreDepuis = localStorage.getItem("dateInscription") || "Aujourd'hui";
-    
-    document.getElementById("username").textContent = username;
-    document.getElementById("birthyear").textContent = birthyear;
-    document.getElementById("membreDepuis").textContent = membreDepuis;
+<script>
+  document.getElementById("form-article").addEventListener("submit", async function(e) {
+    e.preventDefault();
 
-    function editerProfil() {
-      const nouveauNom = prompt("Entrez un nouveau nom d'utilisateur :", username);
-      const nouvelleDate = prompt("Entrez une nouvelle année de naissance :", birthyear);
+    const data = {
+      name: document.getElementById("nom-article").value,
+      description: document.getElementById("description").value,
+      price: parseFloat(document.getElementById("prix-article").value),
+      quantity: parseInt(document.getElementById("stock-article").value),
+      brand: document.getElementById("marque").value,
+      category: document.getElementById("categorie").value,
+      image_url: document.getElementById("image").value,
+      seller_id: parseInt(localStorage.getItem("user_id"))  // Assure-toi que c’est bien un INT
+    };
 
-      if (nouveauNom && nouvelleDate) {
-        localStorage.setItem("nomUtilisateur", nouveauNom);
-        localStorage.setItem("anneeNaissance", nouvelleDate);
-        document.getElementById("username").textContent = nouveauNom;
-        document.getElementById("birthyear").textContent = nouvelleDate;
-        alert("Profil mis à jour !");
+    try {
+      const response = await fetch("http://localhost:5000/homeproducts/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        alert("Article ajouté avec succès !");
+        this.reset();
+      } else {
+        alert("Erreur : " + (result.error || "Requête invalide"));
+        console.error(result);
       }
+    } catch (err) {
+      alert("Erreur réseau.");
+      console.error(err);
     }
-
-
-    function retourAccueil() {
-    window.location.href = "index.html";
-   }
-
-   function supprimerCompte() {
-    const confirmation = confirm("Êtes-vous sûr(e) de vouloir supprimer votre compte ? Cette action est irréversible.");
-    if (confirmation) {
-      localStorage.removeItem("estConnecte");
-      localStorage.removeItem("nomUtilisateur");
-      localStorage.removeItem("anneeNaissance");
-      localStorage.removeItem("dateInscription");
-
-      alert("Votre compte a été supprimé.");
-      window.location.href = "index.html";
-    }
-  }
-
-    // Gestion soumission formulaire (simulé)
-    document.getElementById("form-article").addEventListener("submit", function(e) {
-      e.preventDefault();
-      alert("L'article a été ajouté (simulation). Vous pourrez le connecter à une base de données plus tard.");
-      this.reset();
-    });
-  </script>
+  });
+</script>
 
 </body>
 </html>

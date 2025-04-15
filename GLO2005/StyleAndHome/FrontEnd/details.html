@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Détails de l'article</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="article-detail-container">
+    <img id="detail-img" class="article-img" alt="">
+    <h2 id="detail-nom"></h2>
+    <p><strong>Prix :</strong> <span id="detail-prix"></span></p>
+    <p><strong>Vendu par :</strong> <span id="detail-vendeur"></span></p>
+    <p><strong>Note moyenne :</strong> <span id="detail-note"></span></p>
+    <p><strong>Catégorie :</strong> <span id="detail-categorie"></span></p>
+    <p><strong>Marque :</strong> <span id="detail-marque"></span></p>
+    <p><strong>Note :</strong> <span id="detail-note"></span></p>
+
+
+    <br>
+    <button onclick="window.location.href='home.html'" class="btn-commencer">Retour aux articles</button>
+  </div>
+
+  <script>
+  const article = JSON.parse(localStorage.getItem("articleDetails"));
+  const listeCommentaires = document.getElementById("detail-commentaires");
+
+  if (article) {
+    document.getElementById("detail-img").src = article.ImgURL || article.image || "";
+    document.getElementById("detail-img").alt = article.name || article.nom || "";
+    document.getElementById("detail-nom").textContent = article.name || article.nom || "";
+    document.getElementById("detail-prix").textContent = (article.price || article.prix) + " $";
+    document.getElementById("detail-vendeur").textContent = "Utilisateur #" + (article.seller_id || "");
+    document.getElementById("detail-categorie").textContent = article.category || article.categorie || "";
+    document.getElementById("detail-marque").textContent = article.brand || article.marque || "";
+
+    // Calcul des étoiles
+    const moyenne = article.average_rating || article.note || null;
+    let etoiles = "Pas encore noté";
+    if (moyenne !== null && !isNaN(moyenne)) {
+      const fullStars = Math.floor(moyenne);
+      const halfStar = moyenne % 1 >= 0.5 ? "½" : "";
+      etoiles = "⭐".repeat(fullStars) + halfStar;
+    }
+    let noteFinale = "—";
+  if (moyenne !== null && !isNaN(parseFloat(moyenne))) {
+    noteFinale = parseFloat(moyenne).toFixed(1);
+  }
+  document.getElementById("detail-note").textContent = `${etoiles} (${noteFinale}/5)`;
+
+    // Affichage des commentaires
+    (article.commentaires || []).forEach(c => {
+      const li = document.createElement("li");
+      li.textContent = c;
+      listeCommentaires.appendChild(li);
+    });
+  }
+
+  function ajouterCommentaire() {
+    const texte = document.getElementById("nouveau-commentaire").value.trim();
+    if (texte) {
+      const li = document.createElement("li");
+      li.textContent = texte;
+      listeCommentaires.appendChild(li);
+      document.getElementById("nouveau-commentaire").value = "";
+    }
+  }
+</script>
+
+</body>
+</html>
