@@ -8,22 +8,29 @@
 </head>
 <body>
 
-  <div class="signup-container">
-    <div class="form-box">
-      <h2>Connexion</h2>
-      <form onsubmit="connecterUtilisateur(); return false;">
+<div class="signup-container">
+  <div class="form-box">
+    <h2>Connexion</h2>
 
-        <input type="text" id="username" placeholder="Nom d'utilisateur" required>
-        <input type="password" id="motdepasse" placeholder="Mot de passe" required>
-        <button type="submit">Se connecter</button>
-      </form>
-      <p>Pas encore de compte ? <a href="#" onclick="redirigerVersSignUp()">Inscription</a></p>
-    </div>
+    <form onsubmit="connecterUtilisateur(); return false;">
+      <input type="text" id="username" placeholder="Nom d'utilisateur" required>
+      <input type="password" id="motdepasse" placeholder="Mot de passe" required>
+
+      <div id="otp-section" style="display: none;">
+        <input type="text" id="otp" placeholder="Code reçu par mail">
+        <button type="button" onclick="verifierOtp()">Valider le code</button>
+      </div>
+
+      <p id="erreur" style="color: red; display: none;"></p>
+
+      <button type="submit">Se connecter</button>
+    </form>
+
+    <p>Pas encore de compte ? <a href="#" onclick="redirigerVersSignUp()">Inscription</a></p>
   </div>
+</div>
 
-  <script src="script.js"></script>
+<script src="script.js"></script>
+
 </body>
 </html>
-
-login.html
-Affichage de login.html en cours...

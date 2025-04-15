@@ -1,7 +1,11 @@
 # user_service.py
 import bcrypt
 from app.repositories import user_repository, address_repository
+from app.services.otp_service import generate_otp, send_otp_email
 
+
+# Dictionnaire temporaire pour stocker les OTP (clé = username, valeur = code OTP)
+otp_storage = {}
 
 # Obtenir tous les utilisateurs
 def fetch_all_users():
@@ -51,11 +55,27 @@ def login_user(username, password):
     if not user:
         raise Exception("User not found !")
 
-    # Vérification du mot de passe
     if not bcrypt.checkpw(password.encode('utf-8'), user['PasswordHash'].encode('utf-8')):
         raise Exception("Incorrect password !")
 
-    return user  # On retourne les infos utilisateur pour le token ou autre
+    otp = generate_otp()
+
+    send_otp_email(user["Email"], otp)  # C'est ça qui envoie à l'utilisateur
+
+    otp_storage[username] = otp
+
+    return {"otp_sent": True, "user_id": user["User_Id"]}
+
+# Étape 2 : Vérifier l’OTP
+def verify_otp(username, otp_code):
+    if otp_storage.get(username) != otp_code:
+        raise Exception("Code de vérification incorrect.")
+
+    # Authentification réussie → on peut supprimer l'OTP
+    del otp_storage[username]
+
+    user = user_repository.get_user_by_username(username)
+    return user  # Pour générer le token dans user_routes ensuite
 
 # Obtenir un utilisateur par son username
 def retrieve_user(username):

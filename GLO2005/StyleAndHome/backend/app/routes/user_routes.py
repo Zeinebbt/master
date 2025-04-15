@@ -26,18 +26,16 @@ def get_user_by_id(user_id):
 @user_bp.route("/", methods=["POST"])
 def sign_up():
     data = request.get_json()
-
     try:
         user_id = user_service.create_user(data)
         return jsonify({
             "message": "User created successfully !",
             "user_id": user_id
         }), 201
-
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
-# LOGIN
+# LOGIN → étape 1 : Vérifie username/password et envoie OTP
 @user_bp.route("/login", methods=["POST"])
 def login():
     data = request.get_json()
@@ -45,9 +43,30 @@ def login():
     password = data.get("password")
 
     try:
-        user = user_service.login_user(username, password)
+        result = user_service.login_user(username, password)
+        return jsonify({
+            "message": "OTP sent to your email.",
+            "otp_sent": True,
+            "user_id": result["user_id"]
+        }), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 401
+
+# VERIFY OTP → étape 2 : Vérifie le code OTP et connecte
+@user_bp.route("/verify", methods=["POST"])
+def verify_otp():
+    data = request.get_json()
+    username = data.get("username")
+    otp_code = data.get("otp")
+
+    try:
+        user = user_service.verify_otp(username, otp_code)
         access_token = create_access_token(identity=username)
-        return jsonify({"message": "Login successful!", "token": access_token, "user": user}), 200
+        return jsonify({
+            "message": "Login successful!",
+            "token": access_token,
+            "user": user
+        }), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 401
 

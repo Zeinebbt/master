@@ -280,13 +280,52 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 async function connecterUtilisateur() {
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("motdepasse").value;
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("motdepasse").value.trim();
+
+  console.log("Tentative de connexion avec :");
+  console.log("Username :", username);
+  console.log("Password :", password);
+
+  const erreur = document.getElementById("erreur");
+  const otpSection = document.getElementById("otp-section");
 
   const data = { username, password };
 
   try {
     const response = await fetch("http://localhost:5000/users/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      erreur.style.display = "none";
+      otpSection.style.display = "block";
+      localStorage.setItem("username_temp", username);
+      alert("Un code vous a été envoyé par mail.");
+    } else {
+      erreur.style.display = "block";
+      erreur.textContent = result.error || "Erreur de connexion.";
+    }
+  } catch (error) {
+    console.error("Erreur:", error);
+    erreur.style.display = "block";
+    erreur.textContent = "Erreur de connexion au serveur.";
+  }
+}
+
+async function verifierOtp() {
+  const otp = document.getElementById("otp").value;
+  const username = localStorage.getItem("username_temp");
+  const erreur = document.getElementById("erreur");
+
+  const data = { username, otp };
+
+  try {
+    const response = await fetch("http://localhost:5000/users/verify", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -303,14 +342,15 @@ async function connecterUtilisateur() {
       alert("Connexion réussie !");
       window.location.href = "balance.html";
     } else {
-      alert(result.error || "Erreur de connexion.");
+      erreur.style.display = "block";
+      erreur.textContent = result.error || "Code incorrect.";
     }
   } catch (error) {
     console.error("Erreur:", error);
-    alert("Une erreur est survenue lors de la connexion.");
+    erreur.style.display = "block";
+    erreur.textContent = "Erreur de connexion au serveur.";
   }
 }
-
 
 function ajouterCommentaire() {
   const texte = document.getElementById("nouveau-commentaire").value.trim();
