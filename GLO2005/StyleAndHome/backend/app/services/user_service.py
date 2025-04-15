@@ -1,6 +1,6 @@
 # user_service.py
 import bcrypt
-from app.repositories import user_repository
+from app.repositories import user_repository, address_repository
 
 
 # Obtenir tous les utilisateurs
@@ -17,20 +17,23 @@ def create_user(user_data):
     username = user_data.get("username")
     password = user_data.get("password")
     birthdate = user_data.get("birthdate")
+    street = user_data.get("street")
+    country = user_data.get("country")
+    province = user_data.get("province")
+    zip_code = user_data.get("zip")
 
-    existing_user = user_repository.get_user_by_username(username)
-    if existing_user:
-        raise Exception("Username already exists !")
-
-    existing_email = user_repository.get_user_by_email(email)
-    if existing_email:
-        raise Exception("Email already exists !")
+    if user_repository.get_user_by_username(username):
+        raise Exception("Username already exists!")
+    if user_repository.get_user_by_email(email):
+        raise Exception("Email already exists!")
 
     password_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+    user_id = user_repository.create_user(email, username, password_hash, birthdate)
 
-    user_repository.create_user(email, username, password_hash, birthdate)
-    user = user_repository.get_user_by_username(username)
-    return user["User_Id"]
+    # Create address manually if you disabled the auto-trigger
+    address_repository.create_address(user_id, zip_code, province, country, street)
+
+    return user_id
 
 # Mise à jour d'un utilisateur
 def update_user(user_id, email, username, password, birthdate):

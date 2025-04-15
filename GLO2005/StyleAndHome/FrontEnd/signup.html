@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Inscription | Style & Home</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fdf6f0;
+    }
+
+    .signup-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: linear-gradient(to bottom, #fdf3e8, #f8e5ce);
+    }
+
+    .form-box {
+      background-color: #fffaf5;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      text-align: center;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .form-box h2 {
+      margin-bottom: 25px;
+      color: #3e2c23;
+    }
+
+    .form-box form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-box input {
+      padding: 12px;
+      margin-bottom: 15px;
+      border-radius: 25px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    .form-box button {
+      padding: 12px;
+      border-radius: 25px;
+      border: none;
+      background-color: #e8caa2;
+      color: #3e2c23;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .form-box button:hover {
+      background-color: #d7b78c;
+    }
+
+    .form-box p {
+      margin-top: 15px;
+      font-size: 0.95rem;
+      color: #5f4c3b;
+    }
+
+    .form-box a {
+      color: #a87445;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="signup-container">
+    <div class="form-box">
+      <h2>Créer un compte</h2>
+      <form onsubmit="return verifierEtConnecter(event)">
+        <input type="text" id="username" placeholder="Nom d'utilisateur" required>
+        <input type="email" placeholder="Adresse e-mail" required>
+        <input type="password" id="motdepasse1" placeholder="Mot de passe" required>
+        <input type="password" id="motdepasse2" placeholder="Confirmer le mot de passe" required>
+        <input type="date" id="birthyear" placeholder="Année de naissance" required>
+        <input type="text" id="StreetNameAndNumber" placeholder="nom de la rue et Numéro" required>
+        <input type="text" id="country" placeholder="pays" required>
+        <input type="text" id="province" placeholder="province" required>
+        <input type="text" id="zip" placeholder="zip" required>
+        <p id="erreur" style="color: red; display: none;">Les mots de passe ne correspondent pas.</p>
+        <button type="submit">S'inscrire</button>
+      </form>
+      <p>Déjà un compte ? <a href="login.html">Se connecter</a></p>
+    </div>
+  </div>
+  
+  <script src="script.js"></script>
+</body>
+</html>

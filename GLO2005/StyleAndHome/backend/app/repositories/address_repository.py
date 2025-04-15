@@ -1,5 +1,17 @@
 from config import get_db_connection
 
+def create_address(user_id, zip_code, province, country, street):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO Addresses (User_Id, Zip, Province, Country, StreetNameAndNumber)
+        VALUES (%s, %s, %s, %s, %s)
+    """, (user_id, zip_code, province, country, street))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+
 def get_all_addresses():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
