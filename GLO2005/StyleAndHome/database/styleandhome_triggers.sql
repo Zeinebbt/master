@@ -1,4 +1,4 @@
-USE StyleAndHome;
+USE StyleAndHome ;
 
 -- Supprimer tous les triggers existants pour éviter les conflits
 DROP TRIGGER IF EXISTS after_user_insert;
@@ -10,6 +10,7 @@ DROP TRIGGER IF EXISTS before_buy_check_stock;
 DROP TRIGGER IF EXISTS after_update_check_stock_zero;
 DROP TRIGGER IF EXISTS before_user_delete;
 DROP TRIGGER IF EXISTS prevent_duplicate_buys;
+DROP TRIGGER IF EXISTS prevent_review_without_purchase;
 
 DELIMITER //
 
@@ -135,6 +136,37 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'You have already purchased this product.';
     END IF;
+END;
+//
+
+-- Trigger : Empêcher un user de commenter sans achat
+CREATE TRIGGER prevent_review_without_purchase
+BEFORE INSERT ON Reviews
+FOR EACH ROW
+BEGIN
+    IF hasBoughtProduct(NEW.Author_Id, NEW.HomeProduct_Id) = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'You cannot review a product you did not purchase.';
+    END IF;
+END;
+//
+
+DELIMITER ;
+
+-- FUNCTION : Vérifier si un user a déjà acheté un produit
+DELIMITER //
+
+CREATE FUNCTION hasBoughtProduct(userId INT, productId INT)
+RETURNS BOOLEAN
+READS SQL DATA
+BEGIN
+    DECLARE count_buys INT;
+
+    SELECT COUNT(*) INTO count_buys
+    FROM Buys
+    WHERE User_Id = userId AND HomeProduct_Id = productId;
+
+    RETURN count_buys > 0;
 END;
 //
 

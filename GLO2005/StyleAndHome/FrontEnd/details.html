@@ -3,9 +3,86 @@
 <head>
   <meta charset="UTF-8">
   <title>Détails de l'article</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fdf7f0;
+      color: #3e2c23;
+    }
+
+    .article-detail-container {
+      max-width: 700px;
+      margin: 60px auto;
+      padding: 30px;
+      background-color: #fffaf5;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      color: #3e2c23;
+      text-align: center;
+    }
+
+    .article-img {
+      width: 100%;
+      max-height: 300px;
+      object-fit: contain;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .btn-commencer {
+      margin-top: 20px;
+      padding: 12px 25px;
+      background-color: #e8caa2;
+      color: #3e2c23;
+      border: none;
+      border-radius: 25px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-commencer:hover {
+      background-color: #d7b78c;
+    }
+
+    .stars {
+      color: #f5a623;
+      font-size: 1.1rem;
+    }
+
+    #reviews-container {
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    .review {
+      background-color: #fcf8f3;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+
+    .review strong {
+      color: #3e2c23;
+    }
+
+    .review p {
+      margin: 4px 0;
+      font-size: 0.95rem;
+    }
+
+    .review small {
+      color: #a89987;
+      font-size: 0.85rem;
+    }
+  </style>
 </head>
 <body>
+
   <div class="article-detail-container">
     <img id="detail-img" class="article-img" alt="">
     <h2 id="detail-nom"></h2>
@@ -14,58 +91,67 @@
     <p><strong>Note moyenne :</strong> <span id="detail-note"></span></p>
     <p><strong>Catégorie :</strong> <span id="detail-categorie"></span></p>
     <p><strong>Marque :</strong> <span id="detail-marque"></span></p>
-    <p><strong>Note :</strong> <span id="detail-note"></span></p>
 
+    <h3>Commentaires</h3>
+    <div id="reviews-container"><p>Chargement des avis...</p></div>
 
     <br>
     <button onclick="window.location.href='home.html'" class="btn-commencer">Retour aux articles</button>
   </div>
 
   <script>
-  const article = JSON.parse(localStorage.getItem("articleDetails"));
-  const listeCommentaires = document.getElementById("detail-commentaires");
+    const article = JSON.parse(localStorage.getItem("articleDetails"));
+    const reviewsContainer = document.getElementById("reviews-container");
 
-  if (article) {
-    document.getElementById("detail-img").src = article.ImgURL || article.image || "";
-    document.getElementById("detail-img").alt = article.name || article.nom || "";
-    document.getElementById("detail-nom").textContent = article.name || article.nom || "";
-    document.getElementById("detail-prix").textContent = (article.price || article.prix) + " $";
-    document.getElementById("detail-vendeur").textContent = "Utilisateur #" + (article.seller_id || "");
-    document.getElementById("detail-categorie").textContent = article.category || article.categorie || "";
-    document.getElementById("detail-marque").textContent = article.brand || article.marque || "";
+    if (article) {
+      document.getElementById("detail-img").src = article.ImgURL || article.image || "";
+      document.getElementById("detail-img").alt = article.name || article.nom || "";
+      document.getElementById("detail-nom").textContent = article.name || article.nom || "";
+      document.getElementById("detail-prix").textContent = (article.price || article.prix) + " $";
+      document.getElementById("detail-vendeur").textContent = "Utilisateur #" + (article.seller_id || "");
+      document.getElementById("detail-categorie").textContent = article.category || article.categorie || "";
+      document.getElementById("detail-marque").textContent = article.brand || article.marque || "";
 
-    // Calcul des étoiles
-    const moyenne = article.average_rating || article.note || null;
-    let etoiles = "Pas encore noté";
-    if (moyenne !== null && !isNaN(moyenne)) {
-      const fullStars = Math.floor(moyenne);
-      const halfStar = moyenne % 1 >= 0.5 ? "½" : "";
-      etoiles = "⭐".repeat(fullStars) + halfStar;
+      const moyenne = article.average_rating || article.note || null;
+      let etoiles = "Pas encore noté";
+      if (moyenne !== null && !isNaN(moyenne)) {
+        const fullStars = Math.floor(moyenne);
+        const halfStar = moyenne % 1 >= 0.5 ? "½" : "";
+        etoiles = "⭐".repeat(fullStars) + halfStar;
+      }
+      let noteFinale = "—";
+      if (moyenne !== null && !isNaN(parseFloat(moyenne))) {
+        noteFinale = parseFloat(moyenne).toFixed(1);
+      }
+      document.getElementById("detail-note").innerHTML = `<span class="stars">${etoiles}</span> (${noteFinale}/5)`;
+
+      fetch(`http://localhost:5000/reviews/product/${article.homeproduct_id || article.id}`)
+        .then(response => response.json())
+        .then(data => {
+          reviewsContainer.innerHTML = "";
+          if (data.length === 0) {
+            reviewsContainer.innerHTML = "<p>Aucun commentaire pour ce produit.</p>";
+            return;
+          }
+          data.forEach(review => {
+            const div = document.createElement("div");
+            div.classList.add("review");
+
+            const stars = "⭐".repeat(review.rating);
+            div.innerHTML = `
+              <p><strong>${review.username || 'Utilisateur inconnu'}</strong> — <span class="stars">${stars}</span></p>
+              <p>${review.comment}</p>
+              <small>${new Date(review.review_date).toLocaleDateString()}</small>
+            `;
+            reviewsContainer.appendChild(div);
+          });
+        })
+        .catch(err => {
+          reviewsContainer.innerHTML = "<p>Erreur lors du chargement des avis.</p>";
+          console.error(err);
+        });
     }
-    let noteFinale = "—";
-  if (moyenne !== null && !isNaN(parseFloat(moyenne))) {
-    noteFinale = parseFloat(moyenne).toFixed(1);
-  }
-  document.getElementById("detail-note").textContent = `${etoiles} (${noteFinale}/5)`;
-
-    // Affichage des commentaires
-    (article.commentaires || []).forEach(c => {
-      const li = document.createElement("li");
-      li.textContent = c;
-      listeCommentaires.appendChild(li);
-    });
-  }
-
-  function ajouterCommentaire() {
-    const texte = document.getElementById("nouveau-commentaire").value.trim();
-    if (texte) {
-      const li = document.createElement("li");
-      li.textContent = texte;
-      listeCommentaires.appendChild(li);
-      document.getElementById("nouveau-commentaire").value = "";
-    }
-  }
-</script>
+  </script>
 
 </body>
 </html>

@@ -54,10 +54,11 @@ def get_reviews_by_homeproduct(homeproduct_id):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     query = """
-    SELECT review_id, author_id, rating, comment, homeproduct_id, reviewdate
-    FROM Reviews
-    WHERE homeproduct_id = %s
-    ORDER BY reviewdate DESC
+        SELECT R.Comment AS comment, R.Rating AS rating, R.ReviewDate AS review_date, U.Username AS username
+        FROM Reviews R
+        JOIN Users U ON R.Author_Id = U.User_Id
+        WHERE R.HomeProduct_Id = %s
+        ORDER BY R.ReviewDate DESC
     """
     cursor.execute(query, (homeproduct_id,))
     reviews = cursor.fetchall()

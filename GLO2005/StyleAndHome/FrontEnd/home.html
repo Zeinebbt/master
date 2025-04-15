@@ -104,13 +104,26 @@
   </footer>
 
   <!-- Popup HTML -->
-  <div id="popup" class="popup">
-    <div class="popup-content">
-      <p id="transaction-id"></p>
-      <p id="message-confirmation"></p>
-      <button onclick="fermerPopup()" class="btn-fermer">Fermer</button>
-    </div>
+  <div id="popup" class="popup" style="display: none;">
+  <div class="popup-content">
+    <p id="message-confirmation"></p>
+
+    <label for="review-comment">Laissez un commentaire :</label>
+    <textarea id="review-comment" rows="3" placeholder="Votre avis..."></textarea>
+
+    <label for="review-rating">Note :</label>
+    <select id="review-rating">
+      <option value="5">⭐⭐⭐⭐⭐</option>
+      <option value="4">⭐⭐⭐⭐</option>
+      <option value="3">⭐⭐⭐</option>
+      <option value="2">⭐⭐</option>
+      <option value="1">⭐</option>
+    </select>
+
+    <button onclick="soumettreReview()">Soumettre l'avis</button>
+    <button onclick="fermerPopup()">Fermer</button>
   </div>
+</div>
 
   <!-- Fichier JavaScript (centralisé et propre) -->
   <script src="script.js"></script>

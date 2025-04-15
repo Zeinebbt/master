@@ -1,27 +1,69 @@
-USE StyleAndHome;
-
-
 INSERT INTO Users (User_Id, Username, Email, PasswordHash, Birthdate, CreatedAt) VALUES
-(1, 'oliviawilliams1', 'oliviawilliams1@example.com', 'hash1', '1994-12-15', '2025-04-13 05:05:31'),
-(2, 'noahjohnson2', 'noahjohnson2@example.com', 'hash2', '1999-02-16', '2025-04-13 05:05:31'),
-(3, 'jamesrodriguez3', 'jamesrodriguez3@example.com', 'hash3', '1980-12-16', '2025-04-11 05:05:31'),
-(4, 'oliviabrown4', 'oliviabrown4@example.com', 'hash4', '1999-12-04', '2025-04-08 05:05:31'),
-(5, 'noahgarcia5', 'noahgarcia5@example.com', 'hash5', '1979-11-10', '2025-04-08 05:05:31'),
-(6, 'noahjones6', 'noahjones6@example.com', 'hash6', '1995-10-12', '2025-04-08 05:05:31'),
-(7, 'avamiller7', 'avamiller7@example.com', 'hash7', '1978-03-13', '2025-04-12 05:05:31'),
-(8, 'sophiabrown8', 'sophiabrown8@example.com', 'hash8', '1992-11-11', '2025-04-11 05:05:31'),
-(9, 'sophiajohnson9', 'sophiajohnson9@example.com', 'hash9', '1991-08-27', '2025-04-13 05:05:31'),
-(10, 'jamesjohnson10', 'jamesjohnson10@example.com', 'hash10', '1996-11-26', '2025-04-14 05:05:31'),
-(11, 'noahgarcia11', 'noahgarcia11@example.com', 'hash11', '1973-03-13', '2025-04-09 05:05:31'),
-(12, 'emmamiller12', 'emmamiller12@example.com', 'hash12', '1976-04-19', '2025-04-10 05:05:31'),
-(13, 'jamesbrown13', 'jamesbrown13@example.com', 'hash13', '1997-07-22', '2025-04-12 05:05:31'),
-(14, 'benjaminbrown14', 'benjaminbrown14@example.com', 'hash14', '1974-08-26', '2025-04-14 05:05:31'),
-(15, 'charlotterodriguez15', 'charlotterodriguez15@example.com', 'hash15', '1998-10-11', '2025-04-09 05:05:31'),
-(16, 'sophiabrown16', 'sophiabrown16@example.com', 'hash16', '1977-05-10', '2025-04-08 05:05:31'),
-(17, 'noahjohnson17', 'noahjohnson17@example.com', 'hash17', '1976-04-02', '2025-04-09 05:05:31'),
-(18, 'noahmartinez18', 'noahmartinez18@example.com', 'hash18', '1979-05-10', '2025-04-08 05:05:31'),
-(19, 'williamdavis19', 'williamdavis19@example.com', 'hash19', '1970-03-18', '2025-04-14 05:05:31'),
-(20, 'noahgarcia20', 'noahgarcia20@example.com', 'hash20', '1986-05-15', '2025-04-12 05:05:31');
+(1, 'oliviawilliams1', 'oliviawilliams1@gmail.com', '$2b$12$z9xjcFZuNJcLCK63/1dGr.Jp/rvN.e7SjHENYN/7BKnV7z7RQj0de', '1994-12-15', '2025-04-13 05:05:31'),
+(2, 'noahjohnson2', 'noahjohnson2@hotmail.com', '$2b$12$wdNLYhge44EbDA1hnFuwIOKznjDGtMY2t7Zfk0KxIilBT48KcqAcW', '1999-02-16', '2025-04-13 05:05:31'),
+(3, 'jamesrodriguez3', 'jamesrodriguez3@yahoo.com', '$2b$12$4kqinYnYYEmQQe.3fLB4humbmqeePfGO8gscBdnY9JJahqKlAmHVi', '1980-12-16', '2025-04-11 05:05:31'),
+(4, 'oliviabrown4', 'oliviabrown4@gmail.com', '$2b$12$1dR.XSIMJq2NRO.Xoa3W4eFSJJIgHntHE2Re8CGARFdq5fITPMU2q', '1999-12-04', '2025-04-08 05:05:31'),
+(5, 'noahgarcia5', 'noahgarcia5@hotmail.com', '$2b$12$6SXX1g.s.gYghLcwgVW4PumQfGl/5u.hg8iuAcRKMTvTWj6RJKnMy', '1979-11-10', '2025-04-08 05:05:31'),
+(6, 'noahjones6', 'noahjones6@yahoo.com', '$2b$12$1HnTZti2h2O8Zl3fgB0P8OAP5uGlLSawPPdWcJeeMOiPLo/n5HbDq', '1995-10-12', '2025-04-08 05:05:31'),
+(7, 'avamiller7', 'avamiller7@gmail.com', '$2b$12$EayDoV1TDDJipppBSZ/PAeTDAbuL0D5bP1XFSYx8UbJt5VYi6BSIC', '1978-03-13', '2025-04-12 05:05:31'),
+(8, 'sophiabrown8', 'sophiabrown8@gmail.com', '$2b$12$Oq7mRZGW8UMZ/WtWivz7PO.AVUpXPJQOfgDSDe70jMpLUkz0kLPzW', '1992-11-11', '2025-04-11 05:05:31'),
+(9, 'sophiajohnson9', 'sophiajohnson9@gmail.com', '$2b$12$grAX2ow5SgBQ.ED6zvPPeuvRVCvWAB2a8AEulAcVuKLNeW2ZVf7Ai', '1991-08-27', '2025-04-13 05:05:31'),
+(10, 'jamesjohnson10', 'jamesjohnson10@hotmail.com', '$2b$12$4Db77MaMQLICWgvlXszmiu5AZ0KpqiytKwz/OucPcnOa3XzWnVHyW', '1996-11-26', '2025-04-14 05:05:31'),
+(11, 'noahgarcia11', 'noahgarcia11@hotmail.com', '$2b$12$qoiKhzLZIH/35GJKk2WZru3h1zAyT/2XZSpSBsFcrYyi35wQO1YaC', '1973-03-13', '2025-04-09 05:05:31'),
+(12, 'emmamiller12', 'emmamiller12@hotmail.com', '$2b$12$kTT5npvEotI8KtQ/jU2M5O3SMBKmQY9ks1o44E47v6T16nFX8wDdW', '1976-04-19', '2025-04-10 05:05:31'),
+(13, 'jamesbrown13', 'jamesbrown13@yahoo.com', '$2b$12$5FDssXNU5G9AfFh2UqjMCOS0H1eqL1r19MmBOzzEldYQ6G8gA8vFi', '1997-07-22', '2025-04-12 05:05:31'),
+(14, 'benjaminbrown14', 'benjaminbrown14@yahoo.com', '$2b$12$u3drF5BPchYqE6XhJcB3GOJPS8kpVGlVRkzdfpZTBTQvVjk3BUBpS', '1974-08-26', '2025-04-14 05:05:31'),
+(15, 'charlotterodriguez15', 'charlotterodriguez15@gmail.com', '$2b$12$IJYN4GQnPVK0N6N2nYYFOOmIK89.RocCnF7sx4AoRMTnT83KD1xjy', '1998-10-11', '2025-04-09 05:05:31'),
+(16, 'sophiabrown16', 'sophiabrown16@gmail.com', '$2b$12$KBiOtUHaOlrUuBGvPlHpmOsnGnbKi5oNsdjPRK56mNoyjAIxve2VW', '1977-05-10', '2025-04-08 05:05:31'),
+(17, 'noahjohnson17', 'noahjohnson17@gmail.com', '$2b$12$4UFbFQfySS3hyvttFRiyUe5PfF1GHZJWv8fvwN3jLJv47Zp9nYBty', '1976-04-02', '2025-04-09 05:05:31'),
+(18, 'noahmartinez18', 'noahmartinez18@gmail.com', '$2b$12$9ppM4b6aYWWVJxkzvhcc2u.xZZO5j8XUtPaBQdf7yM8thh4mXQ0Wa', '1979-05-10', '2025-04-08 05:05:31'),
+(19, 'williamdavis19', 'williamdavis19@gmail.com', '$2b$12$HtWxMTIQqAORp7RfT1UY8.4V3cr/2M3y6hYGVVYiU8TV0hZuLvd7a', '1970-03-18', '2025-04-14 05:05:31'),
+(20, 'noahgarcia20', 'noahgarcia20@gmail.com', '$2b$12$Cu/NQqqxlIb0zL3Ed9ITu.zZs6bC9WxuMRZ3rjHo/4Y3ND7Ueq4vy', '1986-05-15', '2025-04-12 05:05:31');
+
+INSERT INTO Addresses (Address_Id, User_Id, Zip, Province, Country, StreetNameAndNumber) VALUES
+(1, 1, 'G1V55', 'PE', 'Canada', '142 Boulevard Champlain'),
+(2, 2, 'G1V21', 'AB', 'Canada', '351 Rue Saint-Jean'),
+(3, 3, 'G1V65', 'MB', 'Canada', '193 Rue Saint-Jean'),
+(4, 4, 'G1V23', 'MB', 'Canada', '80 Rue des Peupliers'),
+(5, 5, 'G1V81', 'NS', 'Canada', '437 Avenue Cartier'),
+(6, 6, 'G1V54', 'NS', 'Canada', '355 Avenue Maguire'),
+(7, 7, 'G1V67', 'NL', 'Canada', '49 Avenue Maguire'),
+(8, 8, 'G1V57', 'MB', 'Canada', '410 Rue des Peupliers'),
+(9, 9, 'G1V72', 'QC', 'Canada', '2 Boulevard Laurier'),
+(10, 10, 'G1V81', 'NL', 'Canada', '139 Boulevard Champlain'),
+(11, 11, 'G1V13', 'NB', 'Canada', '104 Rue Sainte-Foy'),
+(12, 12, 'G1V77', 'NB', 'Canada', '87 Rue Saint-Jean'),
+(13, 13, 'G1V75', 'AB', 'Canada', '431 Rue du Trésor'),
+(14, 14, 'G1V58', 'ON', 'Canada', '284 Rue de la Couronne'),
+(15, 15, 'G1V82', 'ON', 'Canada', '198 Rue Grande-Allée'),
+(16, 16, 'G1V35', 'NB', 'Canada', '73 Rue Saint-Jean'),
+(17, 17, 'G1V16', 'BC', 'Canada', '435 Rue du Trésor'),
+(18, 18, 'G1V97', 'MB', 'Canada', '199 Rue Grande-Allée'),
+(19, 19, 'G1V99', 'BC', 'Canada', '104 Boulevard Laurier'),
+(20, 20, 'G1V28', 'QC', 'Canada', '294 Rue Grande-Allée');
+
+INSERT INTO Wallets (Wallet_Id, User_Id, Solde) VALUES
+(1, 1, 833.64),
+(2, 2, 899.12),
+(3, 3, 801.05),
+(4, 4, 547.8),
+(5, 5, 695.42),
+(6, 6, 446.43),
+(7, 7, 946.95),
+(8, 8, 300.31),
+(9, 9, 166.92),
+(10, 10, 114.48),
+(11, 11, 829.74),
+(12, 12, 688.68),
+(13, 13, 773.44),
+(14, 14, 320.43),
+(15, 15, 335.37),
+(16, 16, 788.27),
+(17, 17, 885.37),
+(18, 18, 634.28),
+(19, 19, 700.14),
+(20, 20, 822.21);
+
 
 INSERT INTO HomeProducts (Name, Description, Price, Brand, Category, ImgURL, Quantity, Seller_Id)
 VALUES (
@@ -1134,133 +1176,211 @@ VALUES (
     10,
     2
 );
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (4, 44, 250.97, '2024-04-19 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (5, 7, 191.58, '2024-12-23 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (5, 34, 68.4, '2024-09-14 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (11, 11, 150.72, '2024-09-16 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (5, 8, 40.74, '2024-10-05 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (20, 30, 459.7, '2024-09-05 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (19, 20, 163.79, '2025-02-28 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (7, 9, 150.42, '2025-03-12 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (14, 45, 216.9, '2025-04-08 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (13, 36, 286.93, '2024-09-28 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (1, 34, 147.7, '2024-06-13 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (5, 2, 280.3, '2024-04-17 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (1, 7, 470.49, '2024-05-14 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (2, 32, 197.29, '2024-10-15 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (19, 8, 48.9, '2024-05-21 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (17, 27, 229.35, '2024-10-18 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (20, 19, 159.95, '2024-09-30 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (3, 50, 21.4, '2025-03-09 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (7, 23, 337.48, '2025-03-13 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (10, 6, 459.57, '2024-07-25 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (3, 22, 320.07, '2024-08-22 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (2, 23, 33.15, '2024-12-20 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (16, 11, 342.12, '2025-01-17 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (12, 41, 472.14, '2024-07-19 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (1, 5, 150.05, '2025-04-03 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (7, 14, 247.9, '2024-06-07 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (13, 33, 377.48, '2024-08-01 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (12, 48, 289.65, '2024-11-02 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (3, 43, 390.0, '2025-02-18 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (4, 36, 422.67, '2025-01-29 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (19, 14, 146.07, '2024-10-17 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (12, 27, 269.87, '2024-09-01 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (2, 3, 135.12, '2025-01-06 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (3, 33, 128.83, '2024-10-18 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (9, 41, 154.8, '2024-07-27 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (14, 26, 323.44, '2024-05-07 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (11, 12, 57.74, '2024-05-30 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (6, 36, 361.74, '2024-10-22 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (2, 38, 222.72, '2025-02-21 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (6, 50, 312.08, '2024-05-24 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (9, 5, 71.17, '2025-03-16 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (19, 48, 421.54, '2024-07-29 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (13, 45, 404.88, '2025-02-18 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (2, 19, 262.06, '2024-08-03 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (11, 8, 306.23, '2024-08-25 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (7, 6, 365.95, '2024-12-18 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (18, 6, 207.76, '2024-08-20 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (17, 19, 154.51, '2024-11-11 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (2, 7, 189.15, '2024-06-13 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (7, 12, 96.15, '2024-11-27 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (1, 34, 235.19, '2024-07-25 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (13, 15, 239.35, '2024-07-17 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (5, 43, 491.36, '2025-04-01 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (17, 12, 162.39, '2024-12-28 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (8, 13, 276.25, '2025-03-26 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (16, 3, 491.09, '2024-10-23 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (11, 31, 217.03, '2024-10-03 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (15, 10, 464.47, '2024-08-02 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (1, 50, 247.53, '2025-03-19 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (15, 48, 488.48, '2024-05-22 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (20, 49, 98.94, '2024-10-11 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (10, 2, 281.42, '2024-11-19 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (20, 46, 33.78, '2024-04-26 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (7, 19, 166.42, '2024-12-27 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (3, 50, 295.15, '2024-10-31 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (6, 32, 389.39, '2024-12-24 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (13, 20, 176.86, '2025-02-24 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (6, 37, 21.13, '2025-04-12 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (12, 39, 445.24, '2024-05-22 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (15, 17, 279.54, '2024-05-02 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (4, 50, 444.29, '2024-05-21 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (5, 39, 24.43, '2025-04-07 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (15, 12, 440.57, '2024-11-16 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (5, 49, 433.5, '2024-10-08 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (2, 22, 124.78, '2024-12-30 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (10, 2, 219.73, '2024-05-03 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (4, 13, 24.87, '2024-08-26 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (3, 7, 345.27, '2024-11-21 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (18, 33, 271.37, '2025-02-12 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (14, 46, 222.99, '2024-07-21 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (3, 37, 238.25, '2024-08-29 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (16, 18, 272.75, '2024-10-29 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (7, 39, 321.9, '2024-09-21 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (5, 10, 311.66, '2024-10-27 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (5, 21, 188.59, '2025-01-18 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (10, 25, 188.05, '2024-12-16 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (7, 46, 82.8, '2024-10-10 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (2, 33, 499.72, '2024-08-14 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (3, 24, 109.23, '2024-06-08 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (17, 46, 318.48, '2024-09-10 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (3, 30, 317.17, '2024-07-07 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (12, 10, 415.13, '2025-03-15 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (12, 28, 45.99, '2025-02-03 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (14, 35, 256.3, '2024-12-16 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (17, 31, 84.15, '2024-09-27 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (14, 45, 56.81, '2024-11-16 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (15, 33, 236.19, '2024-07-12 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (16, 20, 158.45, '2025-03-08 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (14, 25, 443.12, '2025-03-17 18:41:59');
+INSERT INTO Buys (User_Id, HomeProduct_Id, Taxed_Price, PurchaseDate) VALUES (2, 44, 184.06, '2024-10-29 18:41:59');
 
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Livraison rapide.', 2, '2024-07-06 18:41:59', 4, 13);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit conforme à la description.', 3, '2024-05-13 18:41:59', 13, 20);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit de qualité.', 1, '2024-04-26 18:41:59', 7, 9);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit de qualité.', 5, '2024-07-30 18:41:59', 14, 26);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Très bon produit.', 1, '2024-05-03 18:41:59', 9, 5);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Très bon produit.', 4, '2024-12-16 18:41:59', 9, 41);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit conforme à la description.', 4, '2025-03-15 18:41:59', 3, 37);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit de qualité.', 2, '2024-07-08 18:41:59', 12, 41);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Un peu décevant.', 1, '2024-07-29 18:41:59', 2, 38);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Un peu décevant.', 5, '2024-11-19 18:41:59', 4, 50);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit conforme à la description.', 1, '2025-03-22 18:41:59', 2, 19);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit conforme à la description.', 5, '2024-07-27 18:41:59', 2, 44);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Livraison rapide.', 2, '2024-11-26 18:41:59', 15, 17);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Très bon produit.', 4, '2024-12-09 18:41:59', 12, 28);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Très bon produit.', 5, '2024-12-09 18:41:59', 5, 10);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Un peu décevant.', 5, '2024-07-14 18:41:59', 19, 14);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit conforme à la description.', 4, '2024-06-13 18:41:59', 3, 24);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Satisfait de l''achat.', 1, '2024-11-16 18:41:59', 3, 50);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Très bon produit.', 3, '2024-06-17 18:41:59', 14, 45);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Satisfait de l''achat.', 2, '2024-09-17 18:41:59', 11, 8);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Livraison rapide.', 2, '2024-12-13 18:41:59', 5, 43);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Livraison rapide.', 5, '2025-03-09 18:41:59', 5, 2);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Livraison rapide.', 4, '2024-11-29 18:41:59', 17, 19);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit conforme à la description.', 4, '2024-11-20 18:41:59', 5, 8);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Très bon produit.', 5, '2024-05-26 18:41:59', 10, 2);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit conforme à la description.', 1, '2024-06-18 18:41:59', 7, 46);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit de qualité.', 3, '2025-02-11 18:41:59', 10, 25);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Livraison rapide.', 1, '2024-07-24 18:41:59', 17, 31);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit de qualité.', 2, '2025-01-27 18:41:59', 20, 46);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Un peu décevant.', 5, '2024-06-24 18:41:59', 16, 18);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Un peu décevant.', 3, '2025-04-15 18:41:59', 20, 30);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Livraison rapide.', 5, '2025-04-08 18:41:59', 1, 34);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Très bon produit.', 1, '2024-05-30 18:41:59', 6, 50);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Satisfait de l''achat.', 5, '2024-10-15 18:41:59', 1, 50);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Livraison rapide.', 1, '2024-06-27 18:41:59', 5, 21);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Un peu décevant.', 4, '2024-04-17 18:41:59', 12, 39);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit conforme à la description.', 2, '2025-01-24 18:41:59', 5, 39);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit de qualité.', 1, '2024-12-05 18:41:59', 10, 6);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit conforme à la description.', 1, '2024-05-27 18:41:59', 19, 20);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Satisfait de l''achat.', 5, '2024-04-29 18:41:59', 11, 31);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit de qualité.', 3, '2025-01-07 18:41:59', 1, 5);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Un peu décevant.', 1, '2024-08-20 18:41:59', 12, 10);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit conforme à la description.', 1, '2024-07-09 18:41:59', 15, 33);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Livraison rapide.', 4, '2025-01-14 18:41:59', 7, 6);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit de qualité.', 5, '2024-12-19 18:41:59', 11, 12);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Un peu décevant.', 2, '2025-03-27 18:41:59', 11, 11);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Très bon produit.', 4, '2025-02-11 18:41:59', 13, 15);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Très bon produit.', 2, '2024-11-28 18:41:59', 14, 25);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Livraison rapide.', 2, '2024-05-17 18:41:59', 17, 46);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Livraison rapide.', 2, '2024-04-22 18:41:59', 13, 33);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit conforme à la description.', 2, '2025-01-21 18:41:59', 2, 3);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Satisfait de l''achat.', 1, '2025-02-21 18:41:59', 20, 49);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Un peu décevant.', 3, '2024-11-02 18:41:59', 17, 27);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit de qualité.', 2, '2024-11-18 18:41:59', 7, 39);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit conforme à la description.', 1, '2025-03-23 18:41:59', 14, 46);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit de qualité.', 3, '2025-01-24 18:41:59', 7, 12);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Un peu décevant.', 4, '2025-03-23 18:41:59', 17, 12);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Satisfait de l''achat.', 4, '2024-06-25 18:41:59', 2, 32);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit de qualité.', 1, '2025-02-14 18:41:59', 16, 20);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Très bon produit.', 2, '2024-10-13 18:41:59', 6, 32);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Un peu décevant.', 5, '2024-07-24 18:41:59', 3, 30);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit de qualité.', 5, '2025-01-17 18:41:59', 13, 45);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit de qualité.', 4, '2024-10-12 18:41:59', 1, 7);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Satisfait de l''achat.', 1, '2025-04-11 18:41:59', 14, 35);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit conforme à la description.', 5, '2024-07-17 18:41:59', 4, 44);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Satisfait de l''achat.', 1, '2024-11-20 18:41:59', 12, 48);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit conforme à la description.', 3, '2024-05-07 18:41:59', 5, 49);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Un peu décevant.', 5, '2025-02-19 18:41:59', 7, 14);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Très bon produit.', 4, '2024-04-22 18:41:59', 7, 23);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Très bon produit.', 2, '2024-04-18 18:41:59', 3, 7);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit conforme à la description.', 4, '2025-02-27 18:41:59', 3, 22);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Livraison rapide.', 2, '2025-02-11 18:41:59', 15, 48);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Un peu décevant.', 5, '2024-10-30 18:41:59', 16, 3);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit de qualité.', 2, '2024-06-24 18:41:59', 18, 6);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit de qualité.', 2, '2024-06-16 18:41:59', 7, 19);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit de qualité.', 1, '2024-05-13 18:41:59', 2, 23);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Très bon produit.', 4, '2024-05-06 18:41:59', 15, 12);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit conforme à la description.', 2, '2024-12-17 18:41:59', 5, 7);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Livraison rapide.', 1, '2024-07-05 18:41:59', 19, 8);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit conforme à la description.', 2, '2025-01-14 18:41:59', 5, 34);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Un peu décevant.', 5, '2024-05-22 18:41:59', 6, 37);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Livraison rapide.', 5, '2025-04-13 18:41:59', 12, 27);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Très bon produit.', 4, '2024-05-20 18:41:59', 16, 11);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Livraison rapide.', 5, '2024-07-22 18:41:59', 20, 19);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit de qualité.', 3, '2024-11-30 18:41:59', 2, 7);
 
+-- Additional Reviews
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Satisfait de l''achat.', 2, '2024-09-20 18:46:28', 3, 33);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Très bon produit.', 1, '2024-06-18 18:46:28', 15, 10);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Satisfait de l''achat.', 3, '2024-05-10 18:46:28', 8, 13);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit de qualité.', 5, '2024-06-17 18:46:28', 13, 36);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit de qualité.', 2, '2024-05-18 18:46:28', 2, 33);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit de qualité.', 1, '2024-09-20 18:46:28', 18, 33);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Très bon produit.', 2, '2025-02-07 18:46:28', 19, 48);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Un peu décevant.', 4, '2024-09-13 18:46:28', 6, 36);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit de qualité.', 4, '2025-02-08 18:46:28', 3, 43);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit conforme à la description.', 4, '2025-01-25 18:46:28', 4, 36);
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES ('Produit conforme à la description.', 2, '2024-04-19 18:46:28', 2, 22);
 
--- Insertion pour la table Buys (achats)
-INSERT INTO Buys (User_Id, HomeProduct_Id, PurchaseDate, Taxed_Price)
-VALUES
-(1, 3, '2025-04-15 10:00:00', 199.99),
-(2, 5, '2025-04-15 10:05:00', 349.00),
-(3, 10, '2025-04-15 10:10:00', 449.00),
-(4, 7, '2025-04-15 10:15:00', 79.99),
-(5, 2, '2025-04-15 10:20:00', 299.99),
-(6, 1, '2025-04-15 10:25:00', 199.00),
-(7, 8, '2025-04-15 10:30:00', 119.00),
-(8, 6, '2025-04-15 10:35:00', 259.00),
-(9, 4, '2025-04-15 10:40:00', 89.99),
-(10, 11, '2025-04-15 10:45:00', 399.00),
-(11, 12, '2025-04-15 10:50:00', 189.00),
-(12, 9, '2025-04-15 10:55:00', 169.00),
-(13, 13, '2025-04-15 11:00:00', 149.00),
-(14, 14, '2025-04-15 11:05:00', 79.00),
-(15, 15, '2025-04-15 11:10:00', 129.00),
-(16, 16, '2025-04-15 11:15:00', 199.99),
-(17, 17, '2025-04-15 11:20:00', 249.00),
-(18, 18, '2025-04-15 11:25:00', 169.99),
-(19, 19, '2025-04-15 11:30:00', 299.99),
-(20, 20, '2025-04-15 11:35:00', 159.00);
+-- Reviews fournies par l'utilisateur
 
--- Insertion pour la table Reviews (avis)
-INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id)
-VALUES
+INSERT INTO Reviews (Comment, Rating, ReviewDate, Author_Id, HomeProduct_Id) VALUES
 ('Très pratique et d excellente qualité', 5, '2025-04-15 10:00:00', 19, 15),
 ('Très satisfait, il répond à mes attentes.', 1, '2025-04-15 10:00:00', 13, 16),
 ('Produit qui correspond à la description mais l odeur est assez forte.', 3, '2025-04-15 10:00:00', 20, 1),
 ('Satisfait de mon achat, je vais le recommander.', 1, '2025-04-15 10:00:00', 5, 17),
-('Produit qui correspond à la description mais l odeur est assez forte.', 5, '2025-04-15 10:00:00', 4, 13),
-('Produit de bonne qualité mais un peu trop lourd.', 2, '2025-04-15 10:00:00', 13, 6),
-('Excellente qualité, livraison rapide.', 3, '2025-04-15 10:00:00', 9, 4),
-('Le produit fonctionne très bien, mais j ai eu des problèmes avec l emballage.', 5, '2025-04-15 10:00:00', 1, 16),
-('Bien mais il manque quelques améliorations.', 3, '2025-04-15 10:00:00', 12, 17),
-('Produit très bon, je recommande sans hésiter.', 3, '2025-04-15 10:00:00', 4, 15),
-('Agréablement surpris par la qualité.', 1, '2025-04-15 10:00:00', 19, 2),
-('Produit conforme à mes attentes, mais la livraison était un peu longue.', 2, '2025-04-15 10:00:00', 8, 16),
-('Excellente qualité, livraison rapide.', 2, '2025-04-15 10:00:00', 9, 15),
-('Produit conforme, rien à redire.', 3, '2025-04-15 10:00:00', 6, 13),
-('Le produit fonctionne très bien, mais j ai eu des problèmes avec l emballage.', 2, '2025-04-15 10:00:00', 9, 13),
-('Bonne qualité, mais l assemblage n était pas facile.', 1, '2025-04-15 10:00:00', 16, 10),
-('Bonne qualité, mais l assemblage n était pas facile.', 5, '2025-04-15 10:00:00', 15, 10),
-('Le produit est un peu fragile mais ça reste correct.', 2, '2025-04-15 10:00:00', 8, 20),
-('Bon produit, mais pas assez de fonctionnalités.', 5, '2025-04-15 10:00:00', 11, 2),
-('Produit conforme, mais l assemblage est assez difficile.', 4, '2025-04-15 10:00:00', 12, 8),
-('Produit agréable, mais je pense qu il peut être amélioré.', 2, '2025-04-15 10:00:00', 2, 7),
-('Excellente qualité, rien à dire.', 2, '2025-04-15 10:00:00', 4, 3),
-('J aurais aimé plus de choix de couleurs.', 2, '2025-04-15 10:00:00', 4, 10),
-('Produit conforme, rien à redire.', 1, '2025-04-15 10:00:00', 18, 10),
-('Très bon achat, je suis satisfait.', 1, '2025-04-15 10:00:00', 13, 15),
-('Produit efficace mais un peu bruyant.', 5, '2025-04-15 10:00:00', 20, 10),
-('Produit décevant, pas comme sur la photo.', 2, '2025-04-15 10:00:00', 9, 5),
-('Produit qui correspond à la description mais l odeur est assez forte.', 2, '2025-04-15 10:00:00', 1, 7),
-('Très bon rapport qualité/prix.', 2, '2025-04-15 10:00:00', 16, 10),
-('Très satisfait du produit, je vais en acheter un autre.', 1, '2025-04-15 10:00:00', 4, 11),
-('Produit très pratique et bien conçu.', 1, '2025-04-15 10:00:00', 9, 14),
-('Très satisfait, le produit est de qualité.', 2, '2025-04-15 10:00:00', 1, 2),
-('Très bonne qualité, livraison rapide.', 4, '2025-04-15 10:00:00', 19, 7),
-('Bonne qualité, mais l assemblage n était pas facile.', 5, '2025-04-15 10:00:00', 15, 10),
-('Bien mais il manque quelques améliorations.', 4, '2025-04-15 10:00:00', 11, 14),
-('Qualité médiocre, je ne recommande pas.', 5, '2025-04-15 10:00:00', 8, 20),
-('Très bonne qualité, mais il manque quelques accessoires.', 4, '2025-04-15 10:00:00', 5, 3),
-('Très bien mais un peu plus grand que prévu.', 2, '2025-04-15 10:00:00', 6, 19),
-('Très bon achat, je suis satisfait.', 2, '2025-04-15 10:00:00', 13, 11),
-('Le produit est bien mais la livraison a pris trop de temps.', 2, '2025-04-15 10:00:00', 16, 11),
-('Le produit est un peu fragile mais ça reste correct.', 5, '2025-04-15 10:00:00', 13, 19),
-('Bonne qualité, conforme à la description.', 2, '2025-04-15 10:00:00', 15, 6),
-('Bon produit, mais pas assez de fonctionnalités.', 4, '2025-04-15 10:00:00', 18, 4),
-('Le produit est correct, mais un peu cher.', 4, '2025-04-15 10:00:00', 4, 13),
-('Produit satisfaisant, mais les instructions de montage sont peu claires.', 5, '2025-04-15 10:00:00', 5, 17),
-('Produit très pratique, mais je trouve qu il manque quelques fonctionnalités.', 1, '2025-04-15 10:00:00', 2, 7),
-('Très bon produit, facile à utiliser.', 4, '2025-04-15 10:00:00', 7, 3),
-('Produit de qualité, mais j aurais aimé un prix un peu plus bas.', 3, '2025-04-15 10:00:00', 15, 10),
-('Très beau produit, facile à installer.', 3, '2025-04-15 10:00:00', 1, 8),
-('Je suis content du produit mais il est un peu plus grand que ce à quoi je m attendais.', 4, '2025-04-15 10:00:00', 2, 2),
-('Bonne qualité, conforme à la description.', 2, '2025-04-15 10:00:00', 8, 8),
-('Très bon rapport qualité/prix.', 1, '2025-04-15 10:00:00', 1, 5),
-('Produit de bonne qualité, mais la livraison était un peu lente.', 1, '2025-04-15 10:00:00', 4, 8),
-('Très bon produit, facile à utiliser.', 4, '2025-04-15 10:00:00', 13, 8),
-('Satisfait de mon achat, je vais le recommander.', 4, '2025-04-15 10:00:00', 4, 12),
-('Produit très bon, je recommande sans hésiter.', 2, '2025-04-15 10:00:00', 6, 5),
-('Le produit est de bonne qualité, je recommande.', 1, '2025-04-15 10:00:00', 16, 18),
-('Produit pratique mais la finition est à revoir.', 5, '2025-04-15 10:00:00', 6, 20),
-('Produit solide et pratique, je suis satisfait.', 1, '2025-04-15 10:00:00', 13, 14),
-('Excellente qualité, livraison rapide.', 1, '2025-04-15 10:00:00', 19, 10),
-('Produit de qualité, mais j aurais aimé un prix un peu plus bas.', 4, '2025-04-15 10:00:00', 1, 12),
-('Très bon achat, je suis satisfait.', 2, '2025-04-15 10:00:00', 11, 18),
-('Produit décevant, pas comme sur la photo.', 4, '2025-04-15 10:00:00', 12, 6),
-('Très content de mon achat, facile à assembler.', 5, '2025-04-15 10:00:00', 9, 7),
-('Le montage était difficile, mais le produit est de bonne qualité.', 2, '2025-04-15 10:00:00', 16, 6),
-('Produit de bonne qualité, mais la livraison était un peu lente.', 2, '2025-04-15 10:00:00', 17, 4),
-('Pas mal, mais je m attendais à mieux.', 1, '2025-04-15 10:00:00', 16, 5),
-('Livraison rapide, produit conforme.', 3, '2025-04-15 10:00:00', 8, 15),
-('Le produit est exactement ce que je cherchais.', 4, '2025-04-15 10:00:00', 8, 13),
-('Le produit est de bonne qualité, je recommande.', 4, '2025-04-15 10:00:00', 15, 1),
-('Bonne qualité, conforme à la description.', 3, '2025-04-15 10:00:00', 20, 20),
-('Excellente qualité, livraison rapide.', 4, '2025-04-15 10:00:00', 12, 9),
-('Produit conforme, rien à redire.', 1, '2025-04-15 10:00:00', 19, 15),
-('Produit satisfaisant, mais les instructions de montage sont peu claires.', 1, '2025-04-15 10:00:00', 18, 16),
-('Bien mais il manque quelques améliorations.', 5, '2025-04-15 10:00:00', 6, 5),
-('Très satisfait, le produit est de qualité.', 4, '2025-04-15 10:00:00', 9, 17),
-('Produit qui correspond à la description mais l odeur est assez forte.', 3, '2025-04-15 10:00:00', 1, 19),
-('Produit de qualité, mais j aurais aimé un prix un peu plus bas.', 4, '2025-04-15 10:00:00', 7, 19),
-('Agréablement surpris par la qualité.', 2, '2025-04-15 10:00:00', 17, 15),
-('Produit facile à utiliser et bien conçu.', 1, '2025-04-15 10:00:00', 14, 14),
-('Excellente qualité, livraison rapide.', 1, '2025-04-15 10:00:00', 5, 2),
-('Très content de mon achat, facile à assembler.', 3, '2025-04-15 10:00:00', 10, 12),
-('Bon produit, mais je trouve que le prix est élevé.', 1, '2025-04-15 10:00:00', 2, 18),
-('Le produit est un peu fragile mais ça reste correct.', 1, '2025-04-15 10:00:00', 3, 17),
-('Un produit solide et pratique.', 5, '2025-04-15 10:00:00', 19, 2),
-('Agréablement surpris par la qualité.', 2, '2025-04-15 10:00:00', 3, 18),
-('Produit robuste, mais les instructions de montage sont peu claires.', 5, '2025-04-15 10:00:00', 2, 16),
-('Un excellent produit, je suis ravi de mon achat.', 5, '2025-04-15 10:00:00', 13, 18),
-('Produit robuste, mais les instructions de montage sont peu claires.', 4, '2025-04-15 10:00:00', 14, 10),
-('Très bon produit, facile à utiliser.', 4, '2025-04-15 10:00:00', 16, 19),
-('Produit satisfaisant, mais les instructions de montage sont peu claires.', 4, '2025-04-15 10:00:00', 2, 8),
-('Produit très joli, mais le confort pourrait être amélioré.', 3, '2025-04-15 10:00:00', 10, 16),
-('Produit intéressant, mais j aurais aimé plus de fonctionnalités.', 4, '2025-04-15 10:00:00', 15, 19),
-('Bon produit dans l ensemble.', 4, '2025-04-15 10:00:00', 9, 2),
-('Très bonne qualité, mais il manque quelques accessoires.', 4, '2025-04-15 10:00:00', 11, 11),
-('Produit décevant, pas comme sur la photo.', 4, '2025-04-15 10:00:00', 1, 7),
-('Très bonne qualité, livraison rapide.', 1, '2025-04-15 10:00:00', 9, 13),
-('Produit très pratique, mais je trouve qu il manque quelques fonctionnalités.', 1, '2025-04-15 10:00:00', 13, 19),
-('J aurais aimé plus de choix de couleurs.', 1, '2025-04-15 10:00:00', 2, 1),
-('Bon produit dans l ensemble.', 5, '2025-04-15 10:00:00', 14, 9),
+('Produit qui correspond à la description mais l odeur est assez forte.', 5, '2025-04-15 10:00:00', 4, 13);

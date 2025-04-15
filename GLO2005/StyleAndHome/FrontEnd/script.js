@@ -28,13 +28,12 @@ function redirigerVersHome() {
   redirigerVersLoginOu("home.html");
 }
 
-function redirigerVersPanier() {
-  redirigerVersLoginOu("panier.html");
-}
 
 function redirigerVersSolde() {
   redirigerVersLoginOu("balance.html");
 }
+
+let currentProductId = null;
 
 document.addEventListener("DOMContentLoaded", async () => {
   await chargerArticlesDepuisBackend(); // fetch articles from backend
@@ -181,17 +180,80 @@ function fermerPopup() {
 
 function activerPopups() {
   const boutons = document.querySelectorAll(".btn-acheter");
+
   boutons.forEach(btn => {
     btn.addEventListener("click", function () {
       const article = btn.closest(".article");
       const nom = article.querySelector(".article-nom").textContent;
-      const prix = article.querySelector(".article-prix").textContent.replace("Prix : ", "");
+      const prixText = article.querySelector(".article-prix").textContent;
+      const prix = parseFloat(prixText.replace("Prix : ", "").replace(" $", ""));
       const vendeur = article.querySelector(".vendeur").textContent;
-      afficherPopup(nom, prix, vendeur);
+      const homeproduct_id = article.getAttribute("data-id");
+      currentProductId = article.getAttribute("data-id");
+      const user_id = localStorage.getItem("user_id");
+
+      // ✅ INSÈRE LE CONSOLE.LOG ICI
+      console.log("Achat →", {
+        user_id,
+        homeproduct_id,
+        prix
+      });
+
+      // API call to save the buy
+      fetch("http://127.0.0.1:5000/buys/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          user_id: parseInt(user_id),
+          homeproduct_id: parseInt(homeproduct_id),
+          taxed_price: prix
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        afficherPopup(nom, prix.toFixed(2) + " $", vendeur);
+      })
+      .catch(error => {
+        alert("Erreur lors de l'achat : " + error.message);
+      });
     });
   });
 }
+function soumettreReview() {
+  const authorId = parseInt(localStorage.getItem("user_id"));
+  const rating = parseInt(document.getElementById("review-rating").value);
+  const comment = document.getElementById("review-comment").value;
 
+  if (!currentProductId) {
+    alert("Erreur : produit introuvable.");
+    return;
+  }
+
+  fetch("http://127.0.0.1:5000/reviews/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      author_id: authorId,
+      homeproduct_id: parseInt(currentProductId),
+      rating: rating,
+      comment: comment
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    alert("Merci pour votre avis !");
+    document.getElementById("review-comment").value = "";
+    document.getElementById("review-rating").selectedIndex = 0;
+    fermerPopup();
+  })
+  .catch(error => {
+    alert("Erreur lors de la soumission de l'avis : " + error.message);
+  });
+}
 // ---------------------- INITIALISATION ----------------------
 
 async function connecterUtilisateur() {
@@ -210,10 +272,21 @@ async function connecterUtilisateur() {
     const result = await response.json();
 
     if (response.ok) {
+      // ✅ Enregistrement dans le localStorage
       localStorage.setItem("estConnecte", "true");
       localStorage.setItem("nomUtilisateur", result.user.Username);
       localStorage.setItem("user_id", result.user.User_Id);
       localStorage.setItem("token", result.token);
+
+      // ✅ Extraire birthdate et created_at
+      localStorage.setItem(
+        "anneeNaissance",
+        result.user.Birthdate?.split("-")[0] || "Non renseignée"
+      );
+      localStorage.setItem(
+        "dateInscription",
+        result.user.CreatedAt?.split("T")[0] || "Aujourd'hui"
+      );
 
       alert("Connexion réussie !");
       window.location.href = "balance.html";
@@ -225,6 +298,7 @@ async function connecterUtilisateur() {
     alert("Une erreur est survenue lors de la connexion.");
   }
 }
+
 
 
 function ajouterCommentaire() {
@@ -246,19 +320,7 @@ function calculerMoyenne(notes) {
   const moyenne = notes.reduce((a, b) => a + b, 0) / notes.length;
   return moyenne.toFixed(1) + " / 5";
 }
-function supprimerCompte() {
-  const confirmation = confirm("Êtes-vous sûr(e) de vouloir supprimer votre compte ? Cette action est irréversible.");
-  if (confirmation) {
-    // Suppression des données du localStorage
-    localStorage.removeItem("estConnecte");
-    localStorage.removeItem("nomUtilisateur");
-    localStorage.removeItem("anneeNaissance");
-    localStorage.removeItem("dateInscription");
 
-    alert("Votre compte a été supprimé.");
-    window.location.href = "index.html";
-  }
-}
 document.querySelectorAll('.etoile').forEach(star => {
   star.addEventListener('click', () => {
     const note = parseInt(star.getAttribute('data-note'));
@@ -287,7 +349,7 @@ function deconnecterUtilisateur() {
 
 // ---------------------- TEMPLATE ----------------------
 const articleTemplate = `
-  <div class="article" data-categorie="{{categorie}}" data-marque="{{marque}}" data-nom="{{nom}}">
+  <div class="article" data-id="{{id}}" data-categorie="{{categorie}}" data-marque="{{marque}}" data-nom="{{nom}}">
     <img src="{{image}}" alt="{{alt}}" class="article-img">
     <h3 class="article-nom">{{nom}}</h3>
     <p class="article-prix">Prix : {{prix}}</p>
@@ -295,12 +357,14 @@ const articleTemplate = `
     <div class="article-rating">
       {{note_etoiles}} ({{note}}/5)
     </div>
+    <p class="article-stock">Quantité disponible : {{stock}}</p>
     <div class="btn-article-group">
       <button class="btn-details" data-index="{{index}}">Voir en détails</button>
       <button class="btn-acheter">Acheter</button>
     </div>
   </div>
 `;
+
 
 // ---------------------- ARTICLES & SIMULATION ----------------------
 let articles = [];
@@ -349,7 +413,9 @@ function afficherArticles() {
       .replace("{{categorie}}", article.category || "")
       .replace("{{marque}}", article.brand || "")
       .replace("{{stock}}", article.quantity || "")
-      .replace("{{index}}", index);
+      .replace("{{index}}", index)
+      .replace("{{id}}", article.homeproduct_id);
+
 
     container.innerHTML += html;
   });

@@ -14,6 +14,9 @@ from app.routes.homeproduct_routes import homeproduct_bp
 from app.routes.review_routes import review_bp
 from app.routes.buys_routes import buys_bp
 
+
+
+
 # Initialisation de l'app Flask
 app = Flask(__name__)
 CORS(app, resources={r"/*": {
@@ -34,8 +37,8 @@ app.register_blueprint(address_bp, url_prefix="/addresses")
 app.register_blueprint(wallet_bp, url_prefix="/wallets")
 app.register_blueprint(homeproduct_bp, url_prefix="/homeproducts")
 app.register_blueprint(review_bp, url_prefix="/reviews")
-app.register_blueprint(buys_bp, url_prefix="/buys")
 
+app.register_blueprint(buys_bp, url_prefix="/buys")
 
 @app.route("/")
 def index():
