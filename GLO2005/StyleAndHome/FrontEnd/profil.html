@@ -337,15 +337,41 @@ function fermerModal() {
 }
 
 async function confirmerEdition() {
-  const username = document.getElementById("edit-username").value;
-  const email = document.getElementById("edit-email").value;
+  const username = document.getElementById("edit-username").value.trim();
+  const email = document.getElementById("edit-email").value.trim();
   const birthdate = document.getElementById("edit-birthdate").value;
   const password = document.getElementById("edit-password").value;
   const userId = localStorage.getItem("user_id");
   const token = localStorage.getItem("token");
 
+    // Vérification champs vides
+  if (!username || !email || !birthdate) {
+    alert("Veuillez remplir tous les champs obligatoires.");
+    return;
+  }
+
   const payload = { username, email, birthdate };
   if (password) payload.password = password;  // Ajout du mot de passe seulement s’il est non vide
+
+  // Vérification email
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    alert("Veuillez entrer une adresse email valide.");
+    return;
+  }
+
+  // Vérification âge (≥ 18 ans)
+  const dateNaissance = new Date(birthdate);
+  const today = new Date();
+  let age = today.getFullYear() - dateNaissance.getFullYear();
+  const m = today.getMonth() - dateNaissance.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < dateNaissance.getDate())) {
+    age--;
+  }
+  if (age < 18) {
+    alert("Vous devez avoir au moins 18 ans pour modifier votre profil.");
+    return;
+  }
 
   try {
     const response = await fetch(`http://localhost:5000/users/${userId}`, {

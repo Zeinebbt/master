@@ -1,0 +1,22 @@
+# Created by venv; see https://docs.python.org/3/library/venv.html
+# Environnement virtuel
+ .venv/
+ venv/
+
+ # Fichiers Python inutiles
+ __pycache__/
+ *.pyc
+
+ # Fichier de configuration privé
+ .env
+
+ # Fichiers MySQL de Workbench
+ *.sql
+
+ # Fichiers temporaires ou IDE
+ .DS_Store
+ .vscode/
+ .idea/
+
+ # Fichiers log
+ *.log

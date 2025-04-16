@@ -1,4 +1,4 @@
-// ---------------------- CONNEXION & REDIRECTION ----------------------
+// ---------------------- REDIRECTIONS ----------------------
 function redirigerVersSignUp() {
   window.location.href = "signup.html";
 }
@@ -7,13 +7,8 @@ function redirigerVersLogin() {
   window.location.href = "login.html";
 }
 
-
-function estConnecte() {
-  return localStorage.getItem("estConnecte") === "true";
-}
-
 function redirigerVersLoginOu(page) {
-  if (estConnecte()) {
+  if (localStorage.getItem("estConnecte") === "true") {
     window.location.href = page;
   } else {
     window.location.href = "login.html";
@@ -27,7 +22,6 @@ function redirigerVersProfil() {
 function redirigerVersHome() {
   redirigerVersLoginOu("home.html");
 }
-
 
 function redirigerVersSolde() {
   redirigerVersLoginOu("balance.html");
@@ -48,6 +42,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
+// ---------------------- INSCRIPTION ----------------------
 async function verifierEtConnecter(event) {
   event.preventDefault();
 
@@ -59,21 +54,16 @@ async function verifierEtConnecter(event) {
     erreur.style.display = "block";
     return;
   }
-
   erreur.style.display = "none";
 
   const birthdateInput = document.getElementById("birthdate").value;
   const birthdate = new Date(birthdateInput);
   const today = new Date();
-
   let age = today.getFullYear() - birthdate.getFullYear();
   const m = today.getMonth() - birthdate.getMonth();
-  if (m < 0 || (m === 0 && today.getDate() < birthdate.getDate())) {
-    age--;
-  }
+  if (m < 0 || (m === 0 && today.getDate() < birthdate.getDate())) age--;
 
   const erreurAge = document.getElementById("erreur-age");
-
   if (age < 18) {
     erreurAge.style.display = "block";
     return;
@@ -98,7 +88,6 @@ async function verifierEtConnecter(event) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
     });
-
     const result = await response.json();
 
     if (response.ok) {
@@ -192,32 +181,36 @@ function activerPopups() {
       currentProductId = article.getAttribute("data-id");
       const user_id = localStorage.getItem("user_id");
 
-      // INSÈRE LE CONSOLE.LOG ICI
       console.log("Achat →", {
         user_id,
         homeproduct_id,
         prix
       });
 
-      // API call to save the buy
       fetch("http://127.0.0.1:5000/buys/", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    user_id: parseInt(user_id),
-    homeproduct_id: parseInt(homeproduct_id),
-    taxed_price: prix
-  })
-})
-.then(response => response.json())
-.then(data => {
-  afficherPopup(nom, prix.toFixed(2) + " $", vendeur);
-  chargerArticlesDepuisBackend(); //
-.catch(error => {
-  alert("Erreur lors de l'achat : " + error.message);
-});
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          user_id: parseInt(user_id),
+          homeproduct_id: parseInt(homeproduct_id),
+          taxed_price: prix
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        afficherPopup(nom, prix.toFixed(2) + " $", vendeur);
+        setTimeout(() => {
+          chargerArticlesDepuisBackend();
+        }, 500);
+      })
+      .catch(error => {
+        alert("Erreur lors de l'achat : " + error.message);
+      });
+    });
+  });
+} // cette accolade fermante est manquante dans ton code actuel
 
 function soumettreReview() {
   const authorId = parseInt(localStorage.getItem("user_id"));
@@ -254,10 +247,12 @@ function soumettreReview() {
 }
 // ---------------------- INITIALISATION ----------------------
 
+// ---------------------- LOGIN AVEC OTP ----------------------
 async function connecterUtilisateur() {
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("motdepasse").value;
-
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("motdepasse").value.trim();
+  const erreur = document.getElementById("erreur");
+  const otpSection = document.getElementById("otp-section");
   const data = { username, password };
 
   try {
@@ -266,38 +261,57 @@ async function connecterUtilisateur() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
-
     const result = await response.json();
 
     if (response.ok) {
-      // ✅ Enregistrement dans le localStorage
+      erreur.style.display = "none";
+      otpSection.style.display = "block";
+      localStorage.setItem("username_temp", username);
+      alert("Un code vous a été envoyé par mail.");
+    } else {
+      erreur.style.display = "block";
+      erreur.textContent = result.error || "Erreur de connexion.";
+    }
+  } catch (error) {
+    console.error("Erreur:", error);
+    erreur.style.display = "block";
+    erreur.textContent = "Erreur de connexion au serveur.";
+  }
+}
+
+async function verifierOtp() {
+  const otp = document.getElementById("otp").value;
+  const username = localStorage.getItem("username_temp");
+  const erreur = document.getElementById("erreur");
+  const data = { username, otp };
+
+  try {
+    const response = await fetch("http://localhost:5000/users/verify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    const result = await response.json();
+
+    if (response.ok) {
       localStorage.setItem("estConnecte", "true");
       localStorage.setItem("nomUtilisateur", result.user.Username);
       localStorage.setItem("user_id", result.user.User_Id);
       localStorage.setItem("token", result.token);
-
-      // ✅ Extraire birthdate et created_at
-      localStorage.setItem(
-        "anneeNaissance",
-        result.user.Birthdate?.split("-")[0] || "Non renseignée"
-      );
-      localStorage.setItem(
-        "dateInscription",
-        result.user.CreatedAt?.split("T")[0] || "Aujourd'hui"
-      );
-
+      localStorage.setItem("anneeNaissance", result.user.Birthdate?.split("-")[0] || "");
+      localStorage.setItem("dateInscription", result.user.CreatedAt?.split("T")[0] || "");
       alert("Connexion réussie !");
       window.location.href = "balance.html";
     } else {
-      alert(result.error || "Erreur de connexion.");
+      erreur.style.display = "block";
+      erreur.textContent = result.error || "Code incorrect.";
     }
   } catch (error) {
     console.error("Erreur:", error);
-    alert("Une erreur est survenue lors de la connexion.");
+    erreur.style.display = "block";
+    erreur.textContent = "Erreur de connexion au serveur.";
   }
 }
-
-
 
 function ajouterCommentaire() {
   const texte = document.getElementById("nouveau-commentaire").value.trim();
@@ -335,12 +349,9 @@ document.querySelectorAll('.etoile').forEach(star => {
   });
 });
 
+// ---------------------- DECONNEXION ----------------------
 function deconnecterUtilisateur() {
-  localStorage.removeItem("estConnecte");
-  localStorage.removeItem("token");
-  localStorage.removeItem("user_id");
-  localStorage.removeItem("nomUtilisateur");
-
+  localStorage.clear();
   alert("Vous avez été déconnecté.");
   window.location.href = "login.html";
 }
@@ -369,7 +380,7 @@ let articles = [];
 
 async function chargerArticlesDepuisBackend() {
   try {
-    const response = await fetch("http://localhost:5000/homeproducts");
+    const response = await fetch("http://localhost:5000/homeproducts?ts=" + new Date().getTime());
     const data = await response.json();
     console.log("Données reçues :", data); //
     articles = data;
@@ -380,7 +391,8 @@ async function chargerArticlesDepuisBackend() {
   }
 }
 
-function afficherArticles() {
+function afficherArticles() //
+{
   const container = document.querySelector(".article-container");
   if (!container) return;
   container.innerHTML = "";
@@ -391,7 +403,6 @@ function afficherArticles() {
       commentairesHTML = article.commentaires.map(c => `<li>${c}</li>`).join("");
     }
 
-    // 💡 Calcul des étoiles et note
     const moyenne = article.average_rating;
     let etoiles = "Pas encore noté";
     if (moyenne !== null && moyenne !== undefined && !isNaN(moyenne)) {
@@ -414,11 +425,21 @@ function afficherArticles() {
       .replace("{{index}}", index)
       .replace("{{id}}", article.homeproduct_id);
 
-
     container.innerHTML += html;
   });
 
+  // Ces 3 lignes sont bien dans la fonction, après la boucle
   activerBoutonsDetails();
   activerPopups();
   filtrerArticles();
 }
+
+document.querySelector(".search-bar-home")?.addEventListener("input", function (event) {
+  const recherche = event.target.value.toLowerCase();
+
+  document.querySelectorAll(".article").forEach(article => {
+    const nom = article.getAttribute("data-nom").toLowerCase();
+    const visible = nom.includes(recherche);
+    article.style.display = visible ? "inline-block" : "none";
+  });
+});

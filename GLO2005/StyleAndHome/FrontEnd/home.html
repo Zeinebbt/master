@@ -1,136 +1,261 @@
-  <!DOCTYPE html>
-  <html lang="fr">
-  <head>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Accueil | Style & Home</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    main {
+      padding: 60px 20px;
+      min-height: calc(100vh - 120px);
+      background: linear-gradient(to bottom, #fdf3e8, #f8e5ce);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
 
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Accueil | Style & Home</title>
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-      main {
-        padding: 60px 20px;
-        min-height: calc(100vh - 120px);
-        background: linear-gradient(to bottom, #fdf3e8, #f8e5ce);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-      }
+    h1 {
+      font-size: 2.5rem;
+      color: #3e2c23;
+    }
 
-      h1 {
-        font-size: 2.5rem;
-        color: #3e2c23;
-      }
+    .hero-message {
+      background-color: #fffaf5;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
 
-      .hero-message {
-        background-color: #fffaf5;
-        padding: 40px;
-        border-radius: 20px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-      }
-    </style>
-  </head>
-  <body>
+    /* ChatBot */
+    #chatbot-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
 
-    <nav class="navbar">
-      <div class="nav-logo">
-        <img src="logo.png" alt="Logo Style & Home" class="logo-navbar">
-      </div>
-    
-      <div class="nav-left" style="flex: 1; justify-content: center;">
-        <input type="text" class="search-bar-home" placeholder="Rechercher...">
-      </div>
-      
-    
-      <div class="nav-right">
-        <div class="dropdown">
-          <i class="fas fa-user dropbtn" title="Profil"></i>
-          <div class="dropdown-content">
-            <a href="#" onclick="redirigerVersProfil()">Profil</a>
-            <a href="#" onclick="deconnecterUtilisateur()">Se déconnecter</a>
-          </div>
-        </div>
-        <button onclick="redirigerVersSolde()" style="margin-left: 10px; padding: 5px 15px; border-radius: 20px; border: none; background-color: #e8caa2; color: #3e2c23; font-weight: bold; cursor: pointer;">Voir mon solde</button>
-      </div>
-    </nav>
-    
-    <section class="filtre-container">
-      <label for="filtre-categorie">Catégorie :</label>
-      <select id="filtre-categorie">
-        <option value="toutes">Toutes</option>
-        <option value="Salon">Salon</option>
-        <option value="Chambre">Chambre</option>
-        <option value="Salle à manger">Salle à manger</option>
-        <option value="Bureau">Bureau</option>
-        <option value="Salle de bain">Salle de bain</option>
-        <option value="Chambre enfant">Chambre enfant</option>
-        <option value="Extérieur">Extérieur</option>
-        <option value="Rangement">Rangement</option>
-        <option value="Autre">Autre</option>
-      </select>
-    
-      <label for="filtre-marque">Marque :</label>
-      <select id="filtre-marque">
-        <option value="toutes">Toutes</option>
-        <option value="IKEA">IKEA</option>
-        <option value="Maisons du Monde">Maisons du Monde</option>
-        <option value="Conforama">Conforama</option>
-        <option value="But">But</option>
-        <option value="Wayfair">Wayfair</option>
-        <option value="Amazon Basics">Amazon Basics</option>
-        <option value="Leroy Merlin">Leroy Merlin</option>
-        <option value="Vente-Unique">Vente-Unique</option>
-        <option value="Autre">Autre</option>
-      </select>
+    #chatbot-button {
+      background-color: #e8caa2;
+      color: #3e2c23;
+      padding: 15px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 25px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
 
-      <div style="display: flex; align-items: center; gap: 5px;">
-        <label for="filtre-prix">Prix maximum :</label>
-        <input type="number" id="filtre-prix" placeholder="Ex: 50" min="0" />
-      </div>
-    </section>
+    #chatbot-box {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      background-color: white;
+      width: 280px;
+      max-height: 350px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      display: none;
+      flex-direction: column;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
 
-    <main class="article-container"></main>
+    #chatbot-header {
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 10px;
+      color: #3e2c23;
+    }
 
-    <div style="text-align: center; margin: 30px;">
-      <button onclick="window.location.href='index.html'" style="padding: 10px 25px; font-size: 1rem; border-radius: 20px; background-color: #e8caa2; color: #3e2c23; font-weight: bold; border: none; cursor: pointer;">
-        Retour à l'accueil
-      </button>
+    #chatbot-messages {
+      flex: 1;
+      overflow-y: auto;
+      margin-bottom: 10px;
+      font-size: 14px;
+      max-height: 200px;
+    }
+
+    #chatbot-input {
+      width: 100%;
+      padding: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-logo">
+      <img src="logo.png" alt="Logo Style & Home" class="logo-navbar">
     </div>
+
+    <div class="nav-left" style="flex: 1; justify-content: center;">
+      <input type="text" class="search-bar-home" placeholder="Rechercher...">
+    </div>
+
+    <div class="nav-right">
+      <div class="dropdown">
+        <i class="fas fa-user dropbtn" title="Profil"></i>
+        <div class="dropdown-content">
+          <a href="#" onclick="redirigerVersProfil()">Profil</a>
+          <a href="#" onclick="deconnecterUtilisateur()">Se déconnecter</a>
+        </div>
+      </div>
+      <button onclick="redirigerVersSolde()" style="margin-left: 10px; padding: 5px 15px; border-radius: 20px; border: none; background-color: #e8caa2; color: #3e2c23; font-weight: bold; cursor: pointer;">Voir mon solde</button>
+    </div>
+  </nav>
+
+  <section class="filtre-container">
+    <label for="filtre-categorie">Catégorie :</label>
+    <select id="filtre-categorie">
+      <option value="toutes">Toutes</option>
+      <option value="Salon">Salon</option>
+      <option value="Chambre">Chambre</option>
+      <option value="Salle à manger">Salle à manger</option>
+      <option value="Bureau">Bureau</option>
+      <option value="Salle de bain">Salle de bain</option>
+      <option value="Chambre enfant">Chambre enfant</option>
+      <option value="Extérieur">Extérieur</option>
+      <option value="Rangement">Rangement</option>
+      <option value="Autre">Autre</option>
+    </select>
+
+    <label for="filtre-marque">Marque :</label>
+    <select id="filtre-marque">
+      <option value="toutes">Toutes</option>
+      <option value="IKEA">IKEA</option>
+      <option value="Maisons du Monde">Maisons du Monde</option>
+      <option value="Conforama">Conforama</option>
+      <option value="But">But</option>
+      <option value="Wayfair">Wayfair</option>
+      <option value="Amazon Basics">Amazon Basics</option>
+      <option value="Leroy Merlin">Leroy Merlin</option>
+      <option value="Vente-Unique">Vente-Unique</option>
+      <option value="Autre">Autre</option>
+    </select>
+
+    <div style="display: flex; align-items: center; gap: 5px;">
+      <label for="filtre-prix">Prix maximum :</label>
+      <input type="number" id="filtre-prix" placeholder="Ex: 50" min="0" />
+    </div>
+  </section>
+
+  <main class="article-container"></main>
+
+  <div style="text-align: center; margin: 30px;">
+    <button onclick="window.location.href='index.html'" style="padding: 10px 25px; font-size: 1rem; border-radius: 20px; background-color: #e8caa2; color: #3e2c23; font-weight: bold; border: none; cursor: pointer;">
+      Retour à l'accueil
+    </button>
+  </div>
 
   <footer>
     <p>&copy; 2025 Style & Home. Tous droits réservés.</p>
     <p>Pour nous contacter : <strong>+1 (438) 123-4567</strong> | <strong>contact@styleandhome.ca</strong></p>
   </footer>
 
-  <!-- Popup HTML -->
-  <div id="popup" class="popup" style="display: none;">
-  <div class="popup-content">
-    <p id="message-confirmation"></p>
-
-    <label for="review-comment">Laissez un commentaire :</label>
-    <textarea id="review-comment" rows="3" placeholder="Votre avis..."></textarea>
-
-    <label for="review-rating">Note :</label>
-    <select id="review-rating">
-      <option value="5">⭐⭐⭐⭐⭐</option>
-      <option value="4">⭐⭐⭐⭐</option>
-      <option value="3">⭐⭐⭐</option>
-      <option value="2">⭐⭐</option>
-      <option value="1">⭐</option>
-    </select>
-
-    <button onclick="soumettreReview()">Soumettre l'avis</button>
-    <button onclick="fermerPopup()">Fermer</button>
+  <!-- ChatBot -->
+  <div id="chatbot-container">
+    <div id="chatbot-button" onclick="toggleChat()">💬</div>
+    <div id="chatbot-box">
+      <div id="chatbot-header">Support Style&Home</div>
+      <div id="chatbot-suggestions" style="font-size: 0.8rem; color: gray; padding: 5px;">
+        Essayez : Livraison, Retour, Paiement, Produits, Commandes, Solde, Bonjour, Blague...
+      </div>
+      <div id="chatbot-messages"></div>
+      <input type="text" id="chatbot-input" placeholder="Posez votre question..." onkeydown="if(event.key==='Enter') sendMessage()">
+    </div>
   </div>
-</div>
 
-  <!-- Fichier JavaScript (centralisé et propre) -->
+  <!-- Popup Review -->
+  <div id="popup" class="popup" style="display: none;">
+    <div class="popup-content">
+      <p id="message-confirmation"></p>
+
+      <label for="review-comment">Laissez un commentaire :</label>
+      <textarea id="review-comment" rows="3" placeholder="Votre avis..."></textarea>
+
+      <label for="review-rating">Note :</label>
+      <select id="review-rating">
+        <option value="5">⭐⭐⭐⭐⭐</option>
+        <option value="4">⭐⭐⭐⭐</option>
+        <option value="3">⭐⭐⭐</option>
+        <option value="2">⭐⭐</option>
+        <option value="1">⭐</option>
+      </select>
+
+      <button onclick="soumettreReview()">Soumettre l'avis</button>
+      <button onclick="fermerPopup()">Fermer</button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
   <script src="script.js"></script>
   <script>
     if (!localStorage.getItem("token") || !localStorage.getItem("user_id")) {
-  window.location.href = "login.html";
-}
-</script>
-  </body>
-  </html>
+      window.location.href = "login.html";
+    }
+
+    function toggleChat() {
+      const box = document.getElementById('chatbot-box');
+      box.style.display = (box.style.display === "none" || box.style.display === "") ? "flex" : "none";
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('chatbot-input');
+      let message = input.value.trim();
+      if (!message) return;
+
+      appendMessage("Vous", message);
+      input.value = "";
+
+      message = normalizeMessage(message);
+
+      setTimeout(async () => {
+        await new Promise(resolve => setTimeout(resolve, 3000)); // pause
+        botReply(message);
+      }, 300);
+    }
+
+    function normalizeMessage(msg) {
+      return msg.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+    }
+
+    function appendMessage(sender, text) {
+      const messages = document.getElementById('chatbot-messages');
+      const msg = document.createElement('div');
+      msg.innerHTML = `<strong>${sender}:</strong> ${text}`;
+      messages.appendChild(msg);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    function botReply(message) {
+      let response = "Désolé, je n'ai pas compris votre question.";
+
+      if (message.includes("livraison")) {
+        response = "La livraison est gratuite dès 100$ d'achat et rapide partout au Canada.";
+      } else if (message.includes("retour") || message.includes("remboursement")) {
+        response = "Vous pouvez retourner un produit dans un délai de 15 jours après réception.";
+      } else if (message.includes("paiement") || message.includes("payer")) {
+        response = "Le paiement est sécurisé via votre portefeuille Style&Home (Wallet).";
+      } else if (message.includes("vendeur") || message.includes("vendre") || message.includes("publier")) {
+        response = "Sur Style&Home, chaque utilisateur peut publier un produit depuis son profil.";
+      } else if (message.includes("produit") || message.includes("produits") || message.includes("article") || message.includes("maison")) {
+        response = "Nous proposons des meubles, de la décoration, des accessoires pour chaque pièce de votre maison.";
+      } else if (message.includes("commande") || message.includes("achat")) {
+        response = "Vous pouvez consulter toutes vos commandes dans votre profil.";
+      } else if (message.includes("solde") || message.includes("wallet") || message.includes("portefeuille")) {
+        response = "Votre solde est consultable en cliquant sur 'Voir mon solde' en haut à droite.";
+      } else if (message.includes("bonjour") || message.includes("salut") || message.includes("bonsoir")) {
+        response = "Bonjour et bienvenue sur Style&Home ! Comment puis-je vous aider ?";
+      } else if (message.includes("blague")) {
+        response = "Pourquoi les meubles ne mentent jamais ? Parce qu’ils ont trop de tiroirs à cacher ! 😄";
+      }
+
+      appendMessage("Support Style&Home", response);
+    }
+  </script>
+</body>
+</html>
