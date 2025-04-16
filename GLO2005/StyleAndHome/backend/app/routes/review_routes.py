@@ -47,6 +47,11 @@ def create_review():
     if not product:
         return jsonify({"error": "Product not found"}), 404
 
+    # Vérification doublon review (1 seul avis par produit par utilisateur)
+    existing = review_service.fetch_reviews_by_homeproduct(data["homeproduct_id"])
+    if any(r["author_id"] == data["author_id"] for r in existing):
+        return jsonify({"error": "Vous avez déjà laissé un avis pour ce produit."}), 400
+
     try:
         review_id = review_service.create_review(data)
         return jsonify({"message": "Review created successfully", "review_id": review_id}), 201

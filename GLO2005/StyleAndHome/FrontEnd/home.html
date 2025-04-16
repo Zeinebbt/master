@@ -6,7 +6,6 @@
   <title>Accueil | Style & Home</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
   <style>
     main {
       padding: 60px 20px;
@@ -30,7 +29,7 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
 
-    /* --- ChatBot --- */
+    /* ChatBot */
     #chatbot-container {
       position: fixed;
       bottom: 20px;
@@ -86,7 +85,6 @@
     }
   </style>
 </head>
-
 <body>
 
   <nav class="navbar">
@@ -131,11 +129,11 @@
       <option value="IKEA">IKEA</option>
       <option value="Maisons du Monde">Maisons du Monde</option>
       <option value="Conforama">Conforama</option>
-      <option value="BUT">BUT</option>
+      <option value="But">But</option>
       <option value="Wayfair">Wayfair</option>
       <option value="Amazon Basics">Amazon Basics</option>
       <option value="Leroy Merlin">Leroy Merlin</option>
-      <option value="Vente-unique.com">Vente-unique.com</option>
+      <option value="Vente-Unique">Vente-Unique</option>
       <option value="Autre">Autre</option>
     </select>
 
@@ -171,7 +169,30 @@
     </div>
   </div>
 
-  <!-- Script intégré -->
+  <!-- Popup Review -->
+  <div id="popup" class="popup" style="display: none;">
+    <div class="popup-content">
+      <p id="message-confirmation"></p>
+
+      <label for="review-comment">Laissez un commentaire :</label>
+      <textarea id="review-comment" rows="3" placeholder="Votre avis..."></textarea>
+
+      <label for="review-rating">Note :</label>
+      <select id="review-rating">
+        <option value="5">⭐⭐⭐⭐⭐</option>
+        <option value="4">⭐⭐⭐⭐</option>
+        <option value="3">⭐⭐⭐</option>
+        <option value="2">⭐⭐</option>
+        <option value="1">⭐</option>
+      </select>
+
+      <button onclick="soumettreReview()">Soumettre l'avis</button>
+      <button onclick="fermerPopup()">Fermer</button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="script.js"></script>
   <script>
     if (!localStorage.getItem("token") || !localStorage.getItem("user_id")) {
       window.location.href = "login.html";
@@ -193,17 +214,13 @@
       message = normalizeMessage(message);
 
       setTimeout(async () => {
-        await new Promise(resolve => setTimeout(resolve, 3000)); // Pause de 3 secondes
+        await new Promise(resolve => setTimeout(resolve, 3000)); // pause
         botReply(message);
       }, 300);
     }
 
     function normalizeMessage(msg) {
-      return msg
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .trim();
+      return msg.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
     }
 
     function appendMessage(sender, text) {

@@ -11,8 +11,9 @@ def fetch_buys_by_user(user_id):
 def create_buy(buy_data):
     try:
         return buys_repository.create_buy(buy_data)
-    except mysql.connector.errors.IntegrityError as e:
-        if "foreign key constraint fails" in str(e):
+    except mysql.connector.Error as e:
+        error_message = str(e).lower()
+        if "foreign key constraint fails" in error_message:
             raise Exception("User or Product does not exist.")
         else:
-            raise e
+            raise Exception("Database error: " + str(e))

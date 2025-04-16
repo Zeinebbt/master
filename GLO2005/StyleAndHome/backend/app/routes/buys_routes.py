@@ -27,6 +27,9 @@ def create_buy():
 
     try:
         buy_id = buys_service.create_buy(data)
-        return jsonify({"message": "Purchase completed successfully", "buy_id": buy_id}), 201
+        return jsonify({
+            "message": "Purchase completed successfully",
+            "buy_id": buy_id
+        }), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400

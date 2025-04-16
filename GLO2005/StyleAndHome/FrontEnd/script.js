@@ -1,4 +1,4 @@
-// ---------------------- CONNEXION & REDIRECTION ----------------------
+// ---------------------- REDIRECTIONS ----------------------
 function redirigerVersSignUp() {
   window.location.href = "signup.html";
 }
@@ -7,13 +7,8 @@ function redirigerVersLogin() {
   window.location.href = "login.html";
 }
 
-
-function estConnecte() {
-  return localStorage.getItem("estConnecte") === "true";
-}
-
 function redirigerVersLoginOu(page) {
-  if (estConnecte()) {
+  if (localStorage.getItem("estConnecte") === "true") {
     window.location.href = page;
   } else {
     window.location.href = "login.html";
@@ -28,13 +23,11 @@ function redirigerVersHome() {
   redirigerVersLoginOu("home.html");
 }
 
-function redirigerVersPanier() {
-  redirigerVersLoginOu("panier.html");
-}
-
 function redirigerVersSolde() {
   redirigerVersLoginOu("balance.html");
 }
+
+let currentProductId = null;
 
 document.addEventListener("DOMContentLoaded", async () => {
   await chargerArticlesDepuisBackend(); // fetch articles from backend
@@ -49,6 +42,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
+// ---------------------- INSCRIPTION ----------------------
 async function verifierEtConnecter(event) {
   event.preventDefault();
 
@@ -60,21 +54,16 @@ async function verifierEtConnecter(event) {
     erreur.style.display = "block";
     return;
   }
-
   erreur.style.display = "none";
 
   const birthdateInput = document.getElementById("birthdate").value;
   const birthdate = new Date(birthdateInput);
   const today = new Date();
-
   let age = today.getFullYear() - birthdate.getFullYear();
   const m = today.getMonth() - birthdate.getMonth();
-  if (m < 0 || (m === 0 && today.getDate() < birthdate.getDate())) {
-    age--;
-  }
+  if (m < 0 || (m === 0 && today.getDate() < birthdate.getDate())) age--;
 
   const erreurAge = document.getElementById("erreur-age");
-
   if (age < 18) {
     erreurAge.style.display = "block";
     return;
@@ -99,7 +88,6 @@ async function verifierEtConnecter(event) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
     });
-
     const result = await response.json();
 
     if (response.ok) {
@@ -121,87 +109,14 @@ function activerBoutonsDetails() {
     btn.addEventListener("click", function () {
       const index = btn.getAttribute("data-index");
       localStorage.setItem("articleDetails", JSON.stringify(articles[index]));
-      window.location.href = "detail.html"; // ou "détails.html" selon ton fichier
+      window.location.href = "details.html";
     });
   });
 }
-async function chargerArticlesDepuisBackend() {
-  try {
-    const response = await fetch("http://localhost:5000/homeproducts");
-    const data = await response.json();
-    articles = data; // ⚠️ Attention au format de données renvoyé
-    afficherArticles(); // maintenant que articles[] est rempli, on affiche
-  } catch (err) {
-    console.error("Erreur de chargement des articles :", err);
-    alert("Impossible de charger les articles.");
-  }
-}
-
 
 function getParametreURL(nom) {
   const params = new URLSearchParams(window.location.search);
   return params.get(nom);
-}
-
-function chargerModeleArticle() {
-  const container = document.querySelector(".article-container");
-  if (!container) return;
-
-  container.innerHTML = "";
-
-  const template = `
-  <div class="article" data-categorie="{{categorie}}" data-marque="{{marque}}" data-nom="{{nom}}">
-    <img src="{{image}}" alt="{{alt}}" class="article-img">
-    <h3 class="article-nom">{{nom}}</h3>
-    <p class="article-prix">Prix : {{prix}}</p>
-    <p class="article-vendeur">Vendu par : <span class="vendeur">{{vendeur}}</span></p>
-    <div class="article-rating">{{note_etoiles}} ({{note}}/5)</div>
-    <div class="btn-article-group">
-      <button class="btn-details" data-index="{{index}}">Voir en détails</button>
-      <button class="btn-acheter">Acheter</button>
-    </div>
-  </div>
-`;
-
-
-  articles.forEach((article, index) => {
-    let html = template
-    .replace("{{image}}", article.image)
-    .replace("{{alt}}", article.alt)
-    .replace("{{nom}}", article.nom)
-    .replace("{{prix}}", article.prix)
-    .replace("{{vendeur}}", article.vendeur)
-    .replace("{{note_etoiles}}", article.note_etoiles)
-    .replace("{{note}}", article.note)
-    .replace("{{categorie}}", article.categorie)
-    .replace("{{marque}}", article.marque)
-    .replace("{{index}}", index);
-
-    container.innerHTML += html;
-  });
-
-  const paramCat = getParametreURL("categorie");
-  if (paramCat) {
-    const selectCategorie = document.getElementById("filtre-categorie");
-    if (selectCategorie) {
-      selectCategorie.value = paramCat;
-    }
-  }
-
-  function activerBoutonsDetails() {
-    const boutons = document.querySelectorAll(".btn-details");
-    boutons.forEach(btn => {
-      btn.addEventListener("click", function () {
-        const index = btn.getAttribute("data-index");
-        localStorage.setItem("articleDetails", JSON.stringify(articles[index]));
-        window.location.href = "détails.html";
-      });
-    });
-  }
-
-  activerPopups();
-  activerBoutonsDetails();
-  filtrerArticles();
 }
 
 // ---------------------- FILTRAGE ----------------------
@@ -254,42 +169,90 @@ function fermerPopup() {
 
 function activerPopups() {
   const boutons = document.querySelectorAll(".btn-acheter");
+
   boutons.forEach(btn => {
     btn.addEventListener("click", function () {
       const article = btn.closest(".article");
       const nom = article.querySelector(".article-nom").textContent;
-      const prix = article.querySelector(".article-prix").textContent.replace("Prix : ", "");
+      const prixText = article.querySelector(".article-prix").textContent;
+      const prix = parseFloat(prixText.replace("Prix : ", "").replace(" $", ""));
       const vendeur = article.querySelector(".vendeur").textContent;
-      afficherPopup(nom, prix, vendeur);
+      const homeproduct_id = article.getAttribute("data-id");
+      currentProductId = article.getAttribute("data-id");
+      const user_id = localStorage.getItem("user_id");
+
+      console.log("Achat →", {
+        user_id,
+        homeproduct_id,
+        prix
+      });
+
+      fetch("http://127.0.0.1:5000/buys/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          user_id: parseInt(user_id),
+          homeproduct_id: parseInt(homeproduct_id),
+          taxed_price: prix
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        afficherPopup(nom, prix.toFixed(2) + " $", vendeur);
+        setTimeout(() => {
+          chargerArticlesDepuisBackend();
+        }, 500);
+      })
+      .catch(error => {
+        alert("Erreur lors de l'achat : " + error.message);
+      });
     });
   });
-}
+} // cette accolade fermante est manquante dans ton code actuel
 
-// ---------------------- INITIALISATION ----------------------
-document.addEventListener("DOMContentLoaded", () => {
-  chargerModeleArticle();
-  const filtreCategorie = document.getElementById("filtre-categorie");
-  const filtreMarque = document.getElementById("filtre-marque");
-  const filtrePrix = document.getElementById("filtre-prix");
+function soumettreReview() {
+  const authorId = parseInt(localStorage.getItem("user_id"));
+  const rating = parseInt(document.getElementById("review-rating").value);
+  const comment = document.getElementById("review-comment").value;
 
-  if (filtreCategorie && filtreMarque && filtrePrix) {
-    filtreCategorie.addEventListener("change", filtrerArticles);
-    filtreMarque.addEventListener("change", filtrerArticles);
-    filtrePrix.addEventListener("input", filtrerArticles);
+  if (!currentProductId) {
+    alert("Erreur : produit introuvable.");
+    return;
   }
-});
 
+  fetch("http://127.0.0.1:5000/reviews/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      author_id: authorId,
+      homeproduct_id: parseInt(currentProductId),
+      rating: rating,
+      comment: comment
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    alert("Merci pour votre avis !");
+    document.getElementById("review-comment").value = "";
+    document.getElementById("review-rating").selectedIndex = 0;
+    fermerPopup();
+  })
+  .catch(error => {
+    alert("Erreur lors de la soumission de l'avis : " + error.message);
+  });
+}
+// ---------------------- INITIALISATION ----------------------
+
+// ---------------------- LOGIN AVEC OTP ----------------------
 async function connecterUtilisateur() {
   const username = document.getElementById("username").value.trim();
   const password = document.getElementById("motdepasse").value.trim();
-
-  console.log("Tentative de connexion avec :");
-  console.log("Username :", username);
-  console.log("Password :", password);
-
   const erreur = document.getElementById("erreur");
   const otpSection = document.getElementById("otp-section");
-
   const data = { username, password };
 
   try {
@@ -298,7 +261,6 @@ async function connecterUtilisateur() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
-
     const result = await response.json();
 
     if (response.ok) {
@@ -321,7 +283,6 @@ async function verifierOtp() {
   const otp = document.getElementById("otp").value;
   const username = localStorage.getItem("username_temp");
   const erreur = document.getElementById("erreur");
-
   const data = { username, otp };
 
   try {
@@ -330,7 +291,6 @@ async function verifierOtp() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
-
     const result = await response.json();
 
     if (response.ok) {
@@ -338,7 +298,8 @@ async function verifierOtp() {
       localStorage.setItem("nomUtilisateur", result.user.Username);
       localStorage.setItem("user_id", result.user.User_Id);
       localStorage.setItem("token", result.token);
-
+      localStorage.setItem("anneeNaissance", result.user.Birthdate?.split("-")[0] || "");
+      localStorage.setItem("dateInscription", result.user.CreatedAt?.split("T")[0] || "");
       alert("Connexion réussie !");
       window.location.href = "balance.html";
     } else {
@@ -371,19 +332,7 @@ function calculerMoyenne(notes) {
   const moyenne = notes.reduce((a, b) => a + b, 0) / notes.length;
   return moyenne.toFixed(1) + " / 5";
 }
-function supprimerCompte() {
-  const confirmation = confirm("Êtes-vous sûr(e) de vouloir supprimer votre compte ? Cette action est irréversible.");
-  if (confirmation) {
-    // Suppression des données du localStorage
-    localStorage.removeItem("estConnecte");
-    localStorage.removeItem("nomUtilisateur");
-    localStorage.removeItem("anneeNaissance");
-    localStorage.removeItem("dateInscription");
 
-    alert("Votre compte a été supprimé.");
-    window.location.href = "index.html";
-  }
-}
 document.querySelectorAll('.etoile').forEach(star => {
   star.addEventListener('click', () => {
     const note = parseInt(star.getAttribute('data-note'));
@@ -400,19 +349,16 @@ document.querySelectorAll('.etoile').forEach(star => {
   });
 });
 
+// ---------------------- DECONNEXION ----------------------
 function deconnecterUtilisateur() {
-  localStorage.removeItem("estConnecte");
-  localStorage.removeItem("token");
-  localStorage.removeItem("user_id");
-  localStorage.removeItem("nomUtilisateur");
-
+  localStorage.clear();
   alert("Vous avez été déconnecté.");
   window.location.href = "login.html";
 }
 
 // ---------------------- TEMPLATE ----------------------
 const articleTemplate = `
-  <div class="article" data-categorie="{{categorie}}" data-marque="{{marque}}" data-nom="{{nom}}">
+  <div class="article" data-id="{{id}}" data-categorie="{{categorie}}" data-marque="{{marque}}" data-nom="{{nom}}">
     <img src="{{image}}" alt="{{alt}}" class="article-img">
     <h3 class="article-nom">{{nom}}</h3>
     <p class="article-prix">Prix : {{prix}}</p>
@@ -420,12 +366,7 @@ const articleTemplate = `
     <div class="article-rating">
       {{note_etoiles}} ({{note}}/5)
     </div>
-    <div class="article-commentaires">
-      <p><strong>Commentaires :</strong></p>
-      <ul>
-        {{commentaires}}
-      </ul>
-    </div>
+    <p class="article-stock">Quantité disponible : {{stock}}</p>
     <div class="btn-article-group">
       <button class="btn-details" data-index="{{index}}">Voir en détails</button>
       <button class="btn-acheter">Acheter</button>
@@ -433,48 +374,75 @@ const articleTemplate = `
   </div>
 `;
 
+
 // ---------------------- ARTICLES & SIMULATION ----------------------
 let articles = [];
 
 async function chargerArticlesDepuisBackend() {
   try {
-    const response = await fetch("http://localhost:5000/homeproducts");
+    const response = await fetch("http://localhost:5000/homeproducts?ts=" + new Date().getTime());
     const data = await response.json();
+    console.log("Données reçues :", data); //
     articles = data;
-    afficherArticles(); // ✅ s'assurer qu'on affiche bien après chargement
+    afficherArticles(); //
   } catch (err) {
     console.error("Erreur de chargement des articles :", err);
     alert("Impossible de charger les articles.");
   }
 }
 
-function afficherArticles() {
+function afficherArticles() //
+{
   const container = document.querySelector(".article-container");
+  if (!container) return;
   container.innerHTML = "";
 
   articles.forEach((article, index) => {
     let commentairesHTML = "";
     if (Array.isArray(article.commentaires)) {
       commentairesHTML = article.commentaires.map(c => `<li>${c}</li>`).join("");
+    } else {
+      commentairesHTML = "";
     }
 
-    let html = articleTemplate
-      .replace("{{image}}", article.image || "")
-      .replace("{{alt}}", article.alt || "")
-      .replace(/{{nom}}/g, article.nom || "")
-      .replace("{{prix}}", article.prix || "")
-      .replace("{{vendeur}}", article.vendeur || "")
-      .replace("{{note_etoiles}}", article.note_etoiles || "⭐️⭐️⭐️⭐️")
-      .replace("{{note}}", article.note || "4")
-      .replace("{{categorie}}", article.categorie || "")
-      .replace("{{marque}}", article.marque || "")
+    const moyenne = article.average_rating;
+    let etoiles = "Pas encore noté";
+    if (moyenne !== null && moyenne !== undefined && !isNaN(moyenne)) {
+      const fullStars = Math.floor(moyenne);
+      const halfStar = moyenne % 1 >= 0.5 ? "½" : "";
+      etoiles = "⭐".repeat(fullStars) + halfStar;
+    }
+
+    const html = articleTemplate
+      .replace("{{image}}", article.ImgURL || "")
+      .replace("{{alt}}", article.name || "")
+      .replace(/{{nom}}/g, article.name || "")
+      .replace("{{prix}}", article.price + " $" || "")
+      .replace("{{vendeur}}", "Utilisateur #" + article.seller_id)
+      .replace("{{note_etoiles}}", etoiles)
+      .replace("{{note}}", (!isNaN(Number(moyenne)) ? Number(moyenne).toFixed(1) : "—"))
+      .replace("{{categorie}}", article.category || "")
+      .replace("{{marque}}", article.brand || "")
+      .replace("{{stock}}", article.quantity || "")
       .replace("{{index}}", index)
+      .replace("{{id}}", article.homeproduct_id)
       .replace("{{commentaires}}", commentairesHTML);
 
     container.innerHTML += html;
   });
 
+  // Ces 3 lignes sont bien dans la fonction, après la boucle
   activerBoutonsDetails();
   activerPopups();
   filtrerArticles();
 }
+
+document.querySelector(".search-bar-home")?.addEventListener("input", function (event) {
+  const recherche = event.target.value.toLowerCase();
+
+  document.querySelectorAll(".article").forEach(article => {
+    const nom = article.getAttribute("data-nom").toLowerCase();
+    const visible = nom.includes(recherche);
+    article.style.display = visible ? "inline-block" : "none";
+  });
+});
