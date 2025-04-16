@@ -13,9 +13,10 @@ from app.routes.wallet_routes import wallet_bp
 from app.routes.homeproduct_routes import homeproduct_bp
 from app.routes.review_routes import review_bp
 from app.routes.buys_routes import buys_bp
-
-
-
+print("✅ Blueprints enregistrés :")
+print(" - user_bp :", user_bp)
+print(" - buys_bp :", buys_bp)
+print(" - review_bp :", review_bp)
 
 # Initialisation de l'app Flask
 app = Flask(__name__)
@@ -37,8 +38,8 @@ app.register_blueprint(address_bp, url_prefix="/addresses")
 app.register_blueprint(wallet_bp, url_prefix="/wallets")
 app.register_blueprint(homeproduct_bp, url_prefix="/homeproducts")
 app.register_blueprint(review_bp, url_prefix="/reviews")
-
 app.register_blueprint(buys_bp, url_prefix="/buys")
+
 
 @app.route("/")
 def index():

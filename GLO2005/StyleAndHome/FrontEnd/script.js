@@ -192,7 +192,7 @@ function activerPopups() {
       currentProductId = article.getAttribute("data-id");
       const user_id = localStorage.getItem("user_id");
 
-      // ✅ INSÈRE LE CONSOLE.LOG ICI
+      // INSÈRE LE CONSOLE.LOG ICI
       console.log("Achat →", {
         user_id,
         homeproduct_id,
@@ -201,26 +201,24 @@ function activerPopups() {
 
       // API call to save the buy
       fetch("http://127.0.0.1:5000/buys/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          user_id: parseInt(user_id),
-          homeproduct_id: parseInt(homeproduct_id),
-          taxed_price: prix
-        })
-      })
-      .then(response => response.json())
-      .then(data => {
-        afficherPopup(nom, prix.toFixed(2) + " $", vendeur);
-      })
-      .catch(error => {
-        alert("Erreur lors de l'achat : " + error.message);
-      });
-    });
-  });
-}
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    user_id: parseInt(user_id),
+    homeproduct_id: parseInt(homeproduct_id),
+    taxed_price: prix
+  })
+})
+.then(response => response.json())
+.then(data => {
+  afficherPopup(nom, prix.toFixed(2) + " $", vendeur);
+  chargerArticlesDepuisBackend(); //
+.catch(error => {
+  alert("Erreur lors de l'achat : " + error.message);
+});
+
 function soumettreReview() {
   const authorId = parseInt(localStorage.getItem("user_id"));
   const rating = parseInt(document.getElementById("review-rating").value);
@@ -373,9 +371,9 @@ async function chargerArticlesDepuisBackend() {
   try {
     const response = await fetch("http://localhost:5000/homeproducts");
     const data = await response.json();
-    console.log("Données reçues :", data); // 👈 ajoute ceci
+    console.log("Données reçues :", data); //
     articles = data;
-    afficherArticles(); // ✅ s'assurer qu'on affiche bien après chargement
+    afficherArticles(); //
   } catch (err) {
     console.error("Erreur de chargement des articles :", err);
     alert("Impossible de charger les articles.");

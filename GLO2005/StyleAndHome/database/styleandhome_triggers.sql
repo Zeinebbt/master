@@ -1,3 +1,4 @@
+
 USE StyleAndHome ;
 
 -- Supprimer tous les triggers existants pour éviter les conflits
@@ -45,30 +46,32 @@ BEGIN
 END;
 //
 
--- Trigger : Débiter le Wallet de l'acheteur après un achat
-CREATE TRIGGER after_buy_deduct_buyer
-AFTER INSERT ON Buys
-FOR EACH ROW
-BEGIN
-    UPDATE Wallets
-    SET Solde = Solde - NEW.Taxed_Price
-    WHERE User_Id = NEW.User_Id;
-END;
-//
-
--- Trigger : Calcul automatique du Taxed_Price avant insertion
-CREATE TRIGGER calculate_taxed_price
+-- Trigger : Débiter le Wallet de l'acheteur si solde suffisant
+CREATE TRIGGER before_buy_check_balance
 BEFORE INSERT ON Buys
 FOR EACH ROW
 BEGIN
+    DECLARE current_solde DECIMAL(10,2);
     DECLARE product_price DECIMAL(10,2);
 
     SELECT Price INTO product_price
     FROM HomeProducts
-    WHERE HomeProduct_Id = NEW.HomeProduct_Id
-    LIMIT 1;
+    WHERE HomeProduct_Id = NEW.HomeProduct_Id;
 
     SET NEW.Taxed_Price = product_price * 1.15;
+
+    SELECT Solde INTO current_solde
+    FROM Wallets
+    WHERE User_Id = NEW.User_Id;
+
+    IF current_solde < NEW.Taxed_Price THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Insufficient funds.';
+    ELSE
+        UPDATE Wallets
+        SET Solde = Solde - NEW.Taxed_Price
+        WHERE User_Id = NEW.User_Id;
+    END IF;
 END;
 //
 
@@ -79,7 +82,7 @@ FOR EACH ROW
 BEGIN
     UPDATE HomeProducts
     SET Quantity = Quantity - 1
-    WHERE HomeProduct_Id = NEW.HomeProduct_Id;
+    WHERE HomeProduct_Id = NEW.HomeProduct_Id AND Quantity > 0;
 END;
 //
 
@@ -120,7 +123,6 @@ BEGIN
     DELETE FROM Wallets WHERE User_Id = OLD.User_Id;
     DELETE FROM Addresses WHERE User_Id = OLD.User_Id;
     DELETE FROM HomeProducts WHERE Seller_Id = OLD.User_Id;
-    DELETE FROM Reviews WHERE Author_Id = OLD.User_Id;
 END;
 //
 
@@ -139,23 +141,7 @@ BEGIN
 END;
 //
 
--- Trigger : Empêcher un user de commenter sans achat
-CREATE TRIGGER prevent_review_without_purchase
-BEFORE INSERT ON Reviews
-FOR EACH ROW
-BEGIN
-    IF hasBoughtProduct(NEW.Author_Id, NEW.HomeProduct_Id) = 0 THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'You cannot review a product you did not purchase.';
-    END IF;
-END;
-//
-
-DELIMITER ;
-
 -- FUNCTION : Vérifier si un user a déjà acheté un produit
-DELIMITER //
-
 CREATE FUNCTION hasBoughtProduct(userId INT, productId INT)
 RETURNS BOOLEAN
 READS SQL DATA
@@ -167,6 +153,18 @@ BEGIN
     WHERE User_Id = userId AND HomeProduct_Id = productId;
 
     RETURN count_buys > 0;
+END;
+//
+
+-- Trigger : Empêcher un user de commenter sans achat
+CREATE TRIGGER prevent_review_without_purchase
+BEFORE INSERT ON Reviews
+FOR EACH ROW
+BEGIN
+    IF hasBoughtProduct(NEW.Author_Id, NEW.HomeProduct_Id) = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'You cannot review a product you did not purchase.';
+    END IF;
 END;
 //
 
